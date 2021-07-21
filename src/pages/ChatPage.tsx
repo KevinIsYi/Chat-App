@@ -1,7 +1,7 @@
 export const ChatPage = () => {
     return (
         <div>
-            CHat
+            Chat Page
         </div>
     )
 }

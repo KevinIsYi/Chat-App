@@ -2,20 +2,34 @@ import {
     BrowserRouter as Router,
     Switch,
     Redirect,
-    Route
 } from "react-router-dom";
+import { PrivateRoute } from './PrivateRoute';
+import { PublicRoute } from "./PublicRoute";
+import { ChatPage } from '../pages/ChatPage';
 import { LoginPage } from "../pages/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage";
-import { ChatPage } from '../pages/ChatPage';
 
 export const AppRouter = () => {
     return (
         <Router>
             <>
                 <Switch>
-                    <Route exact path="/" component={ChatPage} />
-                    <Route exact path="/auth/login" component={LoginPage} />
-                    <Route exact path="/auth/register" component={RegisterPage} />
+                    <PublicRoute
+                        component={LoginPage}
+                        isAuthenticated={false}
+                        path="/auth/login"
+                    />
+                    <PublicRoute
+                        component={RegisterPage}
+                        isAuthenticated={false}
+                        path="/auth/register"
+                    />
+                    <PrivateRoute
+                        exact
+                        component={ChatPage}
+                        path="/"
+                        isAuthenticated={true}
+                    />
 
                     <Redirect to="/" />
                 </Switch>

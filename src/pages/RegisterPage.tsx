@@ -1,7 +1,7 @@
-export const RegisterPage = () => {
+export const RegisterPage = () => {    
     return (
         <div>
-            
+            Register Page
         </div>
     )
 }
