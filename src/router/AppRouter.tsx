@@ -7,7 +7,6 @@ import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from "./PublicRoute";
 import { ChatPage } from '../pages/ChatPage';
 import { LoginPage } from "../pages/LoginPage";
-import { RegisterPage } from "../pages/RegisterPage";
 
 export const AppRouter = () => {
     return (
@@ -15,20 +14,16 @@ export const AppRouter = () => {
             <>
                 <Switch>
                     <PublicRoute
+                        exact
+                        path="/auth"
+                        isAuthenticated={false}
                         component={LoginPage}
-                        isAuthenticated={false}
-                        path="/auth/login"
-                    />
-                    <PublicRoute
-                        component={RegisterPage}
-                        isAuthenticated={false}
-                        path="/auth/register"
                     />
                     <PrivateRoute
                         exact
-                        component={ChatPage}
                         path="/"
                         isAuthenticated={true}
+                        component={ChatPage}
                     />
 
                     <Redirect to="/" />
