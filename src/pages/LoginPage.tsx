@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { AuthContext } from '../context/AuthContext';
 
 interface FormValues {
     userName: string;
@@ -7,17 +9,71 @@ interface FormValues {
     confirmPassword: string;
 }
 
+interface FormErrors {
+    errorMessage: string | false;
+    confirmPasswordError: boolean;
+    passwordError: boolean;
+    userNameError: boolean;
+}
+
 export const LoginPage = () => {
 
+    const { signIn, createAccount } = useContext(AuthContext);
     const { register, handleSubmit } = useForm<FormValues>();
     const [alreadyHaveAccount, setAlreadyHaveAccount] = useState(false);
+    const [formErrors, setFormErrors] = useState<FormErrors>({
+        errorMessage: false,
+        confirmPasswordError: false,
+        passwordError: false,
+        userNameError: false,
+    });
+
+    const { errorMessage, confirmPasswordError, passwordError, userNameError } = formErrors;
 
     const toggleExistingAccount = () => {
         setAlreadyHaveAccount(!alreadyHaveAccount);
     }
 
     const submitForm = (e: FormValues) => {
-        console.log(e);
+
+        const { userName, password, confirmPassword } = e;
+
+        if (alreadyHaveAccount) {
+            signIn({
+                userName,
+                userPassword: password,
+            });
+        }
+        else {
+            if (userName.length < 5) {
+                setFormErrors({
+                    ...formErrors,
+                    errorMessage: 'User Name must have at least 5 characters',
+                    userNameError: true,
+                });
+            }
+            else if (password.length < 5) {
+                setFormErrors({
+                    ...formErrors,
+                    errorMessage: 'Password must have at least 5 characters',
+                    passwordError: true,
+                });
+            }
+            else if (password !== confirmPassword) {
+                setFormErrors({
+                    ...formErrors,
+                    errorMessage: 'Your passwords do not match',
+                    confirmPasswordError: false,
+                    passwordError: false,
+                });
+            }
+            else {
+                createAccount({
+                    userName,
+                    userPassword: password,
+                });
+            }
+        }
     }
 
     return (
@@ -29,6 +85,11 @@ export const LoginPage = () => {
                         {alreadyHaveAccount ? 'Sign in to your account' : 'Create a new account'}
                     </h2>
                 </div>
+                {
+                    errorMessage && (
+                        <p className="text-red-500 text-center">{errorMessage}</p>
+                    )
+                }
                 <form
                     autoComplete="off"
                     className="mt-8 space-y-6"
@@ -37,13 +98,14 @@ export const LoginPage = () => {
                     <div className="rounded-md shadow-sm">
                         <input
                             type="text"
-                            className="appearance-none mb-4 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address"
+                            className={`${userNameError ? 'border-red-400' : 'border-gray-300'} appearance-none mb-4 relative block w-full px-3 py-2 border placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                            placeholder="User Name"
                             {...register("userName")}
                         />
                         <input
                             type="password"
                             autoComplete="current-password"
-                            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                            className={`${passwordError ? 'border-red-400' : 'border-gray-300'} appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                             placeholder="Password"
                             {...register("password")}
                         />
@@ -52,7 +114,7 @@ export const LoginPage = () => {
                                 <input
                                     type="password"
                                     autoComplete="current-password"
-                                    className="appearance-none mt-4 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                    className={`${confirmPasswordError ? 'border-red-400' : 'border-gray-300'} appearance-none mt-4 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                                     placeholder="Confirm Password"
                                     {...register("confirmPassword")}
                                 />

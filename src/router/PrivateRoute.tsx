@@ -12,5 +12,5 @@ export const PrivateRoute = ({ isAuthenticated, ...rest }: PrivateRouteProps) =>
         )
     }
 
-    return <Redirect to="/auth/login" />
+    return <Redirect to="/auth" />
 }
