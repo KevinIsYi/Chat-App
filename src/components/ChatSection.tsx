@@ -21,7 +21,7 @@ export const ChatSection = () => {
     ];
 
     return (
-        <div className="p-5 flex flex-grow flex-col overflow-auto gap-2">
+        <div className="p-5 mb-2 flex flex-grow flex-col overflow-auto gap-2">
                 {
                     messages.map((message, index) => (
                         (index % 2 === 0) ? (

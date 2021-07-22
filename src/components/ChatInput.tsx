@@ -17,7 +17,7 @@ export const ChatInput = () => {
     }
 
     return (
-        <div className="h-16 bg-gray-200 shadow">
+        <div className="p-5 h-16 bg-gray-200 shadow">
             <form
                 className="flex items-center mx-4 h-full gap-2"
                 onSubmit={handleSubmit(sendMessage)}
