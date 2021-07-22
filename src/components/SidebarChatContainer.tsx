@@ -17,6 +17,10 @@ const people = [
 export const SidebarChatContainer = () => {
     return (
         <div className="overflow-auto">
+            <SidebarChat
+                name="Kevin Rodríguez"
+                pinned={true}
+            />
             {
                 people.map((people, index) => (
                     <SidebarChat
