@@ -40,3 +40,7 @@ code {
 .min-96 {
     min-height: 96px;
 }
+
+.min-w-24 {
+    min-width: 24px;
+}

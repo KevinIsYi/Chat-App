@@ -8,9 +8,9 @@ export interface AuthState {
 };
 
 export const authInitialState: AuthState = {
-    isLoggedIn: false,
-    userName: '',
-    userStatus: ''
+    isLoggedIn: true,
+    userName: 'Kevin Rodríguez',
+    userStatus: 'Change me!'
 };
 
 export interface AuthContextProps {
