@@ -4,7 +4,7 @@ interface Props {
 
 export const SidebarChat = ({ name }: Props) => {
     return (
-        <div className="transition duration-500 hover:bg-gray-200 cursor-pointer px-5 py-3 shadow capitalize flex justify-between">
+        <div className="transition duration-500 hover:bg-gray-200 cursor-pointer px-5 py-3 shadow capitalize flex justify-between w-screen">
             <div>
                 <p className="text-xl font-bold">{name}</p>
                 <p className="text-sm text-gray-700">{name}</p>

@@ -9,7 +9,7 @@ export const SidebarHeader = () => {
     return (
         <div className="flex justify-between items-center px-5 py-5 h-24 bg-gray-300 min-96 overflow-auto lg:overflow-hidden">
             <div className="flex flex-col flex-start items-start">
-                <div className="flex flex-row-reverse items-center gap-1.5 overflow-auto">
+                <div className="flex flex-row-reverse mt-5 lg:mt-0 items-center gap-1.5 overflow-auto">
                     <p className="text-xl font-bold">{userName}</p>
                     <div className="rounded-full bg-red-500 w-3 h-3" />
                 </div>
