@@ -36,3 +36,7 @@ code {
 .ltr {
     direction: ltr;
 }
+
+.min-96 {
+    min-height: 96px;
+}

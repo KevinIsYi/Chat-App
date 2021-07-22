@@ -1,6 +1,6 @@
 export const ChatHeader = () => {
     return (
-        <div className="px-5 py-5 h-24 bg-gray-300">
+        <div className="px-5 py-5 h-24 bg-gray-300 min-96">
             <div className="flex flex-col flex-start items-start">
                 <div className="flex flex-row-reverse items-center gap-1.5">
                     <p className="text-xl font-bold">Nombre Contacto</p>
