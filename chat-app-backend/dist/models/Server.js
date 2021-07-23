@@ -29,4 +29,4 @@ class Server {
     }
 }
 exports.default = Server;
-//# sourceMappingURL=server.js.map
+//# sourceMappingURL=Server.js.map
