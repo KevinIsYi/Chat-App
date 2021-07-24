@@ -1,4 +1,5 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+import { JWTInterface } from '../interfaces/interfaces';
 
 export const generateJWT = (uid: string) => {
     return new Promise((resolve, reject) => {
@@ -17,11 +18,6 @@ export const generateJWT = (uid: string) => {
         );
     });
 };
-
-interface JWTInterface extends JwtPayload {
-    uid: string;
-    userName: string;
-}
 
 export const getUIDFromToken = (token: string) => {
     try {
