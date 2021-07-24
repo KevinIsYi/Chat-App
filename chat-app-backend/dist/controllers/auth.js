@@ -18,7 +18,7 @@ const User_1 = __importDefault(require("../models/User"));
 const jwt_1 = require("../helpers/jwt");
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { body: { userName, password } } = req;
+        const { body: { data: { userName, password } } } = req;
         const userExist = yield User_1.default.findOne({ userName });
         if (userExist) {
             return res.status(400).json({
@@ -34,46 +34,55 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         return res.status(201).json({
             ok: true,
             message: 'User has been created',
-            user,
-            token
+            data: {
+                user,
+                token
+            }
         });
     }
     catch (error) {
         return res.status(500).json({
             ok: false,
-            message: 'An error has occurred. Talk with the Admin'
+            message: 'An error has occurred. Talk with the Admin',
+            data: {}
         });
     }
 });
 exports.createUser = createUser;
 const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { body: { userName, password } } = req;
+        const { body: { data: { userName, password } } } = req;
         const userDB = yield User_1.default.findOne({ userName });
         if (!userDB) {
             return res.status(404).json({
                 ok: false,
-                message: 'Email or User Name is not correct'
+                message: 'Email or User Name is not correct',
+                data: {}
             });
         }
         const isValidPassword = bcryptjs_1.default.compareSync(password, userDB.password);
         if (!isValidPassword) {
             return res.status(404).json({
                 ok: false,
-                message: 'Email or User Name is not correct'
+                message: 'Email or User Name is not correct',
+                data: {}
             });
         }
         const token = yield jwt_1.generateJWT(userDB.id);
         return res.json({
             ok: true,
-            user: userDB,
-            token
+            message: 'Ok',
+            data: {
+                user: userDB,
+                token
+            }
         });
     }
     catch (error) {
         return res.status(500).json({
             ok: false,
-            message: 'An error has occurred, talk with the admin'
+            message: 'An error has occurred, talk with the admin',
+            data: {}
         });
     }
 });

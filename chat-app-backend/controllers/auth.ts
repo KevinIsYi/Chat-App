@@ -5,7 +5,7 @@ import { generateJWT } from '../helpers/jwt';
 
 export const createUser = async (req: Request, res: Response) => {
     try {
-        const { body: { userName, password } } = req;
+        const { body: { data: { userName, password } } } = req;
 
         const userExist = await User.findOne({ userName });
 
@@ -27,28 +27,31 @@ export const createUser = async (req: Request, res: Response) => {
         return res.status(201).json({
             ok: true,
             message: 'User has been created',
-            user,
-            token
+            data: {
+                user,
+                token
+            }
         });
 
     } catch (error) {
         return res.status(500).json({
             ok: false,
-            message: 'An error has occurred. Talk with the Admin'
+            message: 'An error has occurred. Talk with the Admin',
+            data: {}
         });
     }
 }
 
 export const logIn = async (req: Request, res: Response) => {
     try {
-        const { body: { userName, password } } = req;
-
+        const { body: { data: { userName, password } } } = req;
         const userDB = await User.findOne({ userName });
 
         if (!userDB) {
             return res.status(404).json({
                 ok: false,
-                message: 'Email or User Name is not correct'
+                message: 'Email or User Name is not correct',
+                data: {}
             });
         }
 
@@ -57,7 +60,8 @@ export const logIn = async (req: Request, res: Response) => {
         if (!isValidPassword) {
             return res.status(404).json({
                 ok: false,
-                message: 'Email or User Name is not correct'
+                message: 'Email or User Name is not correct',
+                data: {}
             });
         }
 
@@ -65,14 +69,18 @@ export const logIn = async (req: Request, res: Response) => {
 
         return res.json({
             ok: true,
-            user: userDB,
-            token
+            message: 'Ok',
+            data: {
+                user: userDB,
+                token
+            }
         });
 
     } catch (error) {
         return res.status(500).json({
             ok: false,
-            message: 'An error has occurred, talk with the admin'
+            message: 'An error has occurred, talk with the admin',
+            data: {}
         });
     }
 }

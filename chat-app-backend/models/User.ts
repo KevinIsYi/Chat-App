@@ -13,13 +13,18 @@ const UserSchema = new Schema<IUser>({
         required: true,
         unique: true,
     },
+    userStatus: {
+        type: String,
+        required: true,
+        default: 'Change your status!'
+    },
     password: {
         type: String,
         required: true
     },
     online: {
         type: Boolean,
-        default: true
+        default: false
     }
 });
 

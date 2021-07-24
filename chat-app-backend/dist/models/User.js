@@ -19,13 +19,18 @@ const UserSchema = new mongoose_1.Schema({
         required: true,
         unique: true,
     },
+    userStatus: {
+        type: String,
+        required: true,
+        default: 'Change your status!'
+    },
     password: {
         type: String,
         required: true
     },
     online: {
         type: Boolean,
-        default: true
+        default: false
     }
 });
 UserSchema.method('toJSON', function () {

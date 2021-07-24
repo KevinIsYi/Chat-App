@@ -1,80 +1,18 @@
-import { useContext } from "react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { AuthContext } from '../context/AuthContext';
-
-interface FormValues {
-    userName: string;
-    password: string;
-    confirmPassword: string;
-}
-
-interface FormErrors {
-    errorMessage: string | false;
-    confirmPasswordError: boolean;
-    passwordError: boolean;
-    userNameError: boolean;
-}
+import { useAuthValidation } from "../hooks/useAuthValidation";
 
 export const LoginPage = () => {
 
-    const { signIn, createAccount } = useContext(AuthContext);
-    const { register, handleSubmit } = useForm<FormValues>();
-    const [alreadyHaveAccount, setAlreadyHaveAccount] = useState(false);
-    const [formErrors, setFormErrors] = useState<FormErrors>({
-        errorMessage: false,
-        confirmPasswordError: false,
-        passwordError: false,
-        userNameError: false,
-    });
-
-    const { errorMessage, confirmPasswordError, passwordError, userNameError } = formErrors;
-
-    const toggleExistingAccount = () => {
-        setAlreadyHaveAccount(!alreadyHaveAccount);
-    }
-
-    const submitForm = (e: FormValues) => {
-
-        const { userName, password, confirmPassword } = e;
-
-        if (alreadyHaveAccount) {
-            signIn({
-                userName,
-                userPassword: password,
-            });
-        }
-        else {
-            if (userName.length < 5) {
-                setFormErrors({
-                    ...formErrors,
-                    errorMessage: 'User Name must have at least 5 characters',
-                    userNameError: true,
-                });
-            }
-            else if (password.length < 5) {
-                setFormErrors({
-                    ...formErrors,
-                    errorMessage: 'Password must have at least 5 characters',
-                    passwordError: true,
-                });
-            }
-            else if (password !== confirmPassword) {
-                setFormErrors({
-                    ...formErrors,
-                    errorMessage: 'Your passwords do not match',
-                    confirmPasswordError: false,
-                    passwordError: false,
-                });
-            }
-            else {
-                createAccount({
-                    userName,
-                    userPassword: password,
-                });
-            }
-        }
-    }
+    const {
+        alreadyHaveAccount,
+        confirmPasswordError,
+        errorMessage,
+        passwordError,
+        userNameError,
+        handleSubmit,
+        register,
+        submitForm,
+        toggleExistingAccount,
+    } = useAuthValidation();
 
     return (
         <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

@@ -4,7 +4,7 @@ import { ChatStatus } from "./ChatStatus";
 
 export const SidebarHeader = () => {
 
-    const { authState: { userName }, logOut } = useContext(AuthContext);
+    const { authState: { user: { userName } }, logOut } = useContext(AuthContext);
 
     return (
         <div className="flex justify-between items-center px-5 py-5 h-24 bg-gray-300 min-96 overflow-auto lg:overflow-hidden">

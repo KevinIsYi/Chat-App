@@ -1,41 +1,49 @@
-import { AuthState } from './AuthContext';
+import { User } from '../interfaces/interfaces';
+import { AuthInterface } from './AuthContext';
 
-interface logInPayload {
-    userName: string;
-    userStatus: string;
+interface SignInInterface extends User {
+    token: string;
 }
 
 type AuthAction =
-    | { type: 'signIn', payload: logInPayload }
+    | { type: 'signIn', payload: SignInInterface }
     | { type: 'logOut' }
     | { type: 'changeDescription', payload: string }
 
-export const authReducer = (state: AuthState, action: AuthAction): AuthState => {
+export const authReducer = (state: AuthInterface, action: AuthAction): AuthInterface => {
 
     switch (action.type) {
         case 'signIn': {
-            const { payload: { userName, userStatus } } = action;
+
+            const { payload: { token, online, uid, userName, userStatus } } = action;
             return {
                 isLoggedIn: true,
-                userName,
-                userStatus
+                token,
+                user: {
+                    online,
+                    uid,
+                    userName,
+                    userStatus,
+                }
             }
         }
-        case 'logOut': {
-            return {
-                isLoggedIn: false,
-                userName: '',
-                userStatus: ''
-            }
-        }
+        // case 'logOut': {
+        //     return {
+        //         isLoggedIn: false,
+        //         token: '',
+        //         uid: '',
+        //         userName: '',
+        //         userStatus: '',
+        //     }
+        // }
 
-        case 'changeDescription': {
-            const { payload } = action;
-            return {
-                ...state,
-                userStatus: payload
-            }
-        }
+        // case 'changeDescription': {
+        //     const { payload } = action;
+        //     return {
+        //         ...state,
+        //         userStatus: payload
+        //     }
+        // }
 
         default:
             return state;

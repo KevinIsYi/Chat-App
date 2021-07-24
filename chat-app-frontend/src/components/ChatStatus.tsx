@@ -10,8 +10,8 @@ interface FormValues {
 
 export const ChatStatus = () => {
 
-    const { authState: { userStatus }, changeStatus } = useContext(AuthContext);
-    const [isChangingStatus, setIsChangingStatus] = useState(true);
+    const { authState: { user: { userStatus } }, changeStatus } = useContext(AuthContext);
+    const [isChangingStatus, setIsChangingStatus] = useState(false);
     const { register, handleSubmit } = useForm<FormValues>({
         defaultValues: {
             newStatus: userStatus

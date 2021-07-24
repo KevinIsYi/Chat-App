@@ -1,38 +1,33 @@
 import { createContext, useReducer } from "react";
 import { authReducer } from "./authReducer";
+import { User } from '../interfaces/interfaces';
 
-export interface AuthState {
+export interface AuthInterface {
     isLoggedIn: boolean;
-    userName: string;
-    userStatus: string;
+    token: string;
+    user: User;
 };
 
-export const authInitialState: AuthState = {
-    isLoggedIn: true,
-    userName: 'Kevin Rodríguez',
-    userStatus: 'Change me!'
+export const authInitialState: AuthInterface = {
+    isLoggedIn: false,
+    token: '',
+    user: {
+        online: false,
+        uid: '',
+        userName: '',
+        userStatus: ''
+    }
 };
 
 export interface AuthContextProps {
-    authState: AuthState;
+    authState: AuthInterface;
     changeStatus: (newStatus: string) => void;
-    signIn: (params: SignInInterface) => void;
-    createAccount: (params: SignInInterface) => void;
+    signIn: (params: User, token: string) => void;
+    createAccount: (params: User, token: string) => void;
     logOut: () => void;
 };
 
 export const AuthContext = createContext({} as AuthContextProps);
-
-interface SignInInterface {
-    userName: string;
-    userPassword: string;
-    userStatus?: string;
-}
-
-export interface ResponseInterface {
-    ok: boolean;
-    message: string;
-}
 
 export const AuthProvider = ({ children }: { children: JSX.Element }): JSX.Element => {
 
@@ -45,40 +40,22 @@ export const AuthProvider = ({ children }: { children: JSX.Element }): JSX.Eleme
         });
     };
 
-    const sendSignInToState = (params: SignInInterface) => {
-
-        const { userName, userStatus } = params;
-
+    const sendSignInToState = (params: User, token: string) => {
         dispatch({
             type: 'signIn',
             payload: {
-                userName,
-                userStatus: userStatus ? userStatus : ''
+                ...params,
+                token
             }
         });
-
-
     }
 
-    const createAccount = (params: SignInInterface): ResponseInterface => {
-        const userStatus = 'Write something about you!';
-        params.userStatus = userStatus;
-
-        sendSignInToState(params);
-
-        return {
-            ok: true,
-            message: 'Failed'
-        }
+    const createAccount = (params: User, token: string) => {
+        sendSignInToState(params, token);
     }
 
-    const signIn = (params: SignInInterface): ResponseInterface => {
-        sendSignInToState(params);
-
-        return {
-            ok: true,
-            message: 'Failed'
-        }
+    const signIn = (params: User, token: string) => {
+        sendSignInToState(params, token);
     };
 
     const logOut = () => {
