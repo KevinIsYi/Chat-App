@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { logIn } from '../api/logIn';
+import { authFetch } from '../api/auth';
 import { AuthContext } from '../context/AuthContext';
 
 interface FormErrors {
@@ -17,7 +17,7 @@ interface FormValues {
 }
 
 export const useAuthValidation = () => {
-    const { signIn, createAccount } = useContext(AuthContext);
+    const { signIn } = useContext(AuthContext);
     const [alreadyHaveAccount, setAlreadyHaveAccount] = useState(true);
     const [formErrors, setFormErrors] = useState<FormErrors>({
         errorMessage: false,
@@ -31,26 +31,29 @@ export const useAuthValidation = () => {
         setAlreadyHaveAccount(!alreadyHaveAccount);
     }
 
+    const dispatchSignIn = async (userName: string, password: string, endpoint: "/auth" | "/auth/new") => {
+        const { ok, message, data } = await authFetch(userName, password, endpoint);
+
+        if (ok) {
+            const { user, token } = data;
+            signIn(user, token);
+        }
+        else {
+            setFormErrors({
+                confirmPasswordError: false,
+                errorMessage: message,
+                passwordError: true,
+                userNameError: true,
+            });
+        }
+    }
+
     const submitForm = async (e: FormValues) => {
 
         const { userName, password, confirmPassword } = e;
 
         if (alreadyHaveAccount) {
-            const { ok, message, data } = await logIn(userName, password);
-            console.log(await logIn(userName, password));
-            
-            if (ok) {
-                const { user, token } = data;
-                createAccount(user, token);
-            }
-            else {
-                setFormErrors({
-                    confirmPasswordError: false,
-                    errorMessage: message,
-                    passwordError: true,
-                    userNameError: true,
-                });
-            }
+            dispatchSignIn(userName, password, '/auth');
         }
         else {
             if (userName.length < 5) {
@@ -76,7 +79,7 @@ export const useAuthValidation = () => {
                 });
             }
             else {
-
+                dispatchSignIn(userName, password, '/auth/new');
             }
         }
     }
@@ -88,6 +91,5 @@ export const useAuthValidation = () => {
         submitForm,
         register,
         ...formErrors
-
     }
 }

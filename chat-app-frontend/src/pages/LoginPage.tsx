@@ -63,7 +63,7 @@ export const LoginPage = () => {
                         className="font-medium text-sm text-indigo-600 hover:text-indigo-500 text-right block cursor-pointer"
                         onClick={toggleExistingAccount}
                     >
-                        Already have Account?
+                        {alreadyHaveAccount ? "Don't have account?" : "Already have account"}
                     </p>
                     <button type="submit" className="transition duration-700 uppercase font-bold group w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         {alreadyHaveAccount ? 'Sign In' : 'Register'}

@@ -23,7 +23,6 @@ export interface AuthContextProps {
     authState: AuthInterface;
     changeStatus: (newStatus: string) => void;
     signIn: (params: User, token: string) => void;
-    createAccount: (params: User, token: string) => void;
     logOut: () => void;
 };
 
@@ -39,8 +38,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }): JSX.Eleme
             payload: newStatus
         });
     };
-
-    const sendSignInToState = (params: User, token: string) => {
+    
+    const signIn = (params: User, token: string) => {
         dispatch({
             type: 'signIn',
             payload: {
@@ -49,14 +48,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }): JSX.Eleme
             }
         });
     }
-
-    const createAccount = (params: User, token: string) => {
-        sendSignInToState(params, token);
-    }
-
-    const signIn = (params: User, token: string) => {
-        sendSignInToState(params, token);
-    };
 
     const logOut = () => {
         dispatch({
@@ -69,7 +60,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }): JSX.Eleme
             value={{
                 authState,
                 changeStatus,
-                createAccount,
                 logOut,
                 signIn,
             }}
