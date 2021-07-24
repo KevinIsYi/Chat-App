@@ -1,16 +1,16 @@
 import { Router } from 'express';
-import { createUser } from '../controllers/auth';
+import { createUser, logIn } from '../controllers/auth';
 import { validateAuthFields, validatePasswordLength } from '../middlewares/validate-auth-fields';
 
 const router = Router();
 
-// router.post(
-//     '/',
-//     [
-
-//     ],
-//     login
-// );
+router.post(
+    '/',
+    [
+        validateAuthFields,
+    ],
+    logIn
+);
 
 
 router.post(
@@ -19,7 +19,7 @@ router.post(
         validateAuthFields,
         validatePasswordLength
     ],
-    createUser    
+    createUser
 )
 
 module.exports = router;

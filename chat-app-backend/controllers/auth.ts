@@ -38,3 +38,41 @@ export const createUser = async (req: Request, res: Response) => {
         });
     }
 }
+
+export const logIn = async (req: Request, res: Response) => {
+    try {
+        const { body: { userName, password } } = req;
+
+        const userDB = await User.findOne({ userName });
+
+        if (!userDB) {
+            return res.status(404).json({
+                ok: false,
+                message: 'Email or User Name is not correct'
+            });
+        }
+
+        const isValidPassword = bcryptjs.compareSync(password, userDB.password);
+
+        if (!isValidPassword) {
+            return res.status(404).json({
+                ok: false,
+                message: 'Email or User Name is not correct'
+            });
+        }
+
+        const token = await generateJWT(userDB.id);
+
+        return res.json({
+            ok: true,
+            user: userDB,
+            token
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            ok: false,
+            message: 'An error has occurred, talk with the admin'
+        });
+    }
+}

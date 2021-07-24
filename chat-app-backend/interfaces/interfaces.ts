@@ -9,3 +9,5 @@ export interface JWTInterface extends JwtPayload {
 export interface IGetUserAuthInfoRequest extends Request {
     uid: string
 }
+
+

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = void 0;
+exports.logIn = exports.createUser = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const User_1 = __importDefault(require("../models/User"));
 const jwt_1 = require("../helpers/jwt");
@@ -46,4 +46,36 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.createUser = createUser;
+const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { body: { userName, password } } = req;
+        const userDB = yield User_1.default.findOne({ userName });
+        if (!userDB) {
+            return res.status(404).json({
+                ok: false,
+                message: 'Email or User Name is not correct'
+            });
+        }
+        const isValidPassword = bcryptjs_1.default.compareSync(password, userDB.password);
+        if (!isValidPassword) {
+            return res.status(404).json({
+                ok: false,
+                message: 'Email or User Name is not correct'
+            });
+        }
+        const token = yield jwt_1.generateJWT(userDB.id);
+        return res.json({
+            ok: true,
+            user: userDB,
+            token
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            ok: false,
+            message: 'An error has occurred, talk with the admin'
+        });
+    }
+});
+exports.logIn = logIn;
 //# sourceMappingURL=auth.js.map
