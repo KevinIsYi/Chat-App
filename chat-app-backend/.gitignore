@@ -5,6 +5,7 @@
 
 # production
 /build
+/chat-app-backend/dist
 
 # misc
 .env
