@@ -31,6 +31,7 @@ export const SidebarChatContainer = () => {
                 users.map(({ uid, online, userName }) => (
                     <SidebarChat
                         key={uid}
+                        uid={uid}
                         online={online}
                         userName={userName}
 

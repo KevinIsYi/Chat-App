@@ -18,10 +18,11 @@ export const ChatSection = () => {
         'This is a test message This is a test message This is a test message This is a test message This is a test message This is a test message This is a test message',
         'This is a test message This is a test message This is a test message This is a test message This is a test message This is a test message This is a test message',
         'This is a test message This is a test message This is a test message This is a test message This is a test message This is a test message This is a test message',
+        
     ];
 
     return (
-        <div className="p-5 mb-2 flex flex-grow flex-col overflow-auto gap-2">
+        <div id="chat-container" className="p-5 mb-2 flex flex-grow flex-col overflow-auto gap-2">
                 {
                     messages.map((message, index) => (
                         (index % 2 === 0) ? (

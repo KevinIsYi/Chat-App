@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
 
-
 export const changeUserStatus = async (req: Request, res: Response) => {
     try {
         const { body: { uid, userStatus } } = req;
@@ -31,6 +30,24 @@ export const changeUserStatus = async (req: Request, res: Response) => {
         return res.status(500).json({
             ok: false,
             message: 'An error has occurred. Contact an admin'
+        });
+    }
+}
+
+export const getUsers = async (req: Request, res: Response) => {
+    try {
+        const users = await User.find();
+
+        return res.json({
+            ok: true,
+            message: 'Success',
+            users
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            message: 'Failed at fetching users. Contact an admin',
         });
     }
 }

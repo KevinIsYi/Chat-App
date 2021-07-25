@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { changeUserStatus } from '../controllers/user';
+import { changeUserStatus, getUsers } from '../controllers/user';
 import { validateUID } from '../middlewares/validate-uid';
 import { verifyJWT } from '../middlewares/verify-jwt';
 
@@ -12,6 +12,14 @@ router.post(
         verifyJWT
     ],
     changeUserStatus
+);
+
+router.get(
+    '/get-users',
+    [
+        verifyJWT
+    ],
+    getUsers
 );
 
 module.exports = router;

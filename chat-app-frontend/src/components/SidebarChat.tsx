@@ -1,15 +1,24 @@
-import { AiFillPushpin } from 'react-icons/ai'
-import { User } from '../interfaces/interfaces'
+import { AiFillPushpin } from 'react-icons/ai';
+import { scrollToBottom } from '../helpers/scrollToBottom';
 
 interface Props {
+    uid: string;
     pinned?: boolean;
-    online:     boolean;
-    userName:   string;
+    online: boolean;
+    userName: string;
 }
 
-export const SidebarChat = ({ online, userName, pinned }: Props) => {
+export const SidebarChat = ({ uid, online, userName, pinned }: Props) => {
+
+    const selectChat = () => {
+        scrollToBottom();
+    }
+
     return (
-        <div className="transition duration-500 hover:bg-gray-200 cursor-pointer px-5 py-3 shadow capitalize flex justify-between w-screen md:w-full">
+        <div
+            className="transition duration-500 hover:bg-gray-200 cursor-pointer px-5 py-3 shadow capitalize flex justify-between w-screen md:w-full"
+            onClick={selectChat}
+        >
             {
                 pinned ? (
                     <div className="flex items-center gap-2">
