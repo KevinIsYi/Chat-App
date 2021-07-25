@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
+import { removeSpaces } from "../helpers/removeSpaces";
 
 export const validateAuthFields = (req: Request, res: Response, next: NextFunction) => {
-    const { body: { data: { userName, password } } } = req;
+    const { body: { userName, password } } = req;
 
     if (!userName || !password) {
         return res.status(400).json({
@@ -13,7 +14,7 @@ export const validateAuthFields = (req: Request, res: Response, next: NextFuncti
 }
 
 export const validatePasswordLength = (req: Request, res: Response, next: NextFunction) => {
-    const { body: { data: { password } } } = req;
+    const { body: { password } } = req;
 
     if (password.length < 6) {
         return res.status(400).json({
@@ -25,15 +26,17 @@ export const validatePasswordLength = (req: Request, res: Response, next: NextFu
     next();
 }
 
-export const validateBodyData = (req: Request, res: Response, next: NextFunction) => {
-    const { body: { data } } = req;
+export const validateUserNameLength = (req: Request, res: Response, next: NextFunction) => {
+    const { body: { userName } } = req;
 
-    if (!data) {
+    if (userName.legth > 25) {
         return res.status(400).json({
             ok: false,
-            message: 'Data field is required',
+            message: 'User Name cannot have more than 25 characters' 
         });
     }
+
+    req.body.userName = removeSpaces(userName);
 
     next();
 }

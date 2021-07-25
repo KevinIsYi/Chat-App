@@ -15,3 +15,7 @@ export interface User {
     userName:   string;
     uid:        string;
 }
+
+export interface ChatInterface {
+    message: string;
+}

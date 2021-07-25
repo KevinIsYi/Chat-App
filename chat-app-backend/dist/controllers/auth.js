@@ -16,9 +16,10 @@ exports.logIn = exports.createUser = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const User_1 = __importDefault(require("../models/User"));
 const jwt_1 = require("../helpers/jwt");
+const removeSpaces_1 = require("../helpers/removeSpaces");
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { body: { data: { userName, password } } } = req;
+        const { body: { userName, password } } = req;
         const userExist = yield User_1.default.findOne({ userName });
         if (userExist) {
             return res.status(400).json({
@@ -51,7 +52,8 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.createUser = createUser;
 const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { body: { data: { userName, password } } } = req;
+        const { body: { userName: user, password } } = req;
+        const userName = removeSpaces_1.removeSpaces(user);
         const userDB = yield User_1.default.findOne({ userName });
         if (!userDB) {
             return res.status(404).json({

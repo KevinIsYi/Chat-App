@@ -2,11 +2,12 @@ import { Request, Response } from 'express';
 import bcryptjs from 'bcryptjs';
 import User from '../models/User';
 import { generateJWT } from '../helpers/jwt';
+import { removeSpaces } from '../helpers/removeSpaces';
 
 export const createUser = async (req: Request, res: Response) => {
     try {
-        
-        const { body: { data: { userName, password } } } = req;
+
+        const { body: { userName, password } } = req;
 
         const userExist = await User.findOne({ userName });
 
@@ -45,7 +46,8 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const logIn = async (req: Request, res: Response) => {
     try {
-        const { body: { data: { userName, password } } } = req;
+        const { body: { userName: user, password } } = req;
+        const userName = removeSpaces(user);
         const userDB = await User.findOne({ userName });
 
         if (!userDB) {

@@ -1,13 +1,12 @@
 import { Router } from 'express';
 import { createUser, logIn } from '../controllers/auth';
-import { validateAuthFields, validateBodyData, validatePasswordLength } from '../middlewares/validate-auth-fields';
+import { validateAuthFields, validatePasswordLength, validateUserNameLength } from '../middlewares/validate-auth-fields';
 
 const router = Router();
 
 router.post(
     '/',
     [
-        validateBodyData,
         validateAuthFields,
     ],
     logIn
@@ -17,9 +16,9 @@ router.post(
 router.post(
     '/new',
     [
-        validateBodyData,
         validateAuthFields,
-        validatePasswordLength
+        validatePasswordLength,
+        validateUserNameLength
     ],
     createUser
 )

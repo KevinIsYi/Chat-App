@@ -4,7 +4,8 @@ import jwt from 'jsonwebtoken';
 export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
     try {
         const token = req.header('x-token');
-
+        console.log(req);
+        
         if (!token) {
             return res.status(401).json({
                 ok: false,

@@ -1,5 +1,5 @@
 import { User } from '../interfaces/interfaces';
-import { AuthInterface } from './AuthContext';
+import { authInitialState, AuthInterface } from './AuthContext';
 
 interface SignInInterface extends User {
     token: string;
@@ -27,23 +27,19 @@ export const authReducer = (state: AuthInterface, action: AuthAction): AuthInter
                 }
             }
         }
-        // case 'logOut': {
-        //     return {
-        //         isLoggedIn: false,
-        //         token: '',
-        //         uid: '',
-        //         userName: '',
-        //         userStatus: '',
-        //     }
-        // }
-
-        // case 'changeDescription': {
-        //     const { payload } = action;
-        //     return {
-        //         ...state,
-        //         userStatus: payload
-        //     }
-        // }
+        case 'logOut': {
+            return authInitialState;
+        }
+        case 'changeDescription': {
+            const { payload } = action;
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    userStatus: payload
+                }
+            }
+        }
 
         default:
             return state;

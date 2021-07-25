@@ -6,18 +6,19 @@ export const authFetch = async (
     userPassword: string,
     endpoint: '/auth' | '/auth/new'
 ): Promise<Auth> => {
-
     try {
-        const { data } = await chatDB.post<Auth>(endpoint, {
-            data: {
+        const { data } = await chatDB.post<Auth>(
+            endpoint,
+            {
                 userName,
                 password: userPassword
             }
-        });
+        );
 
         return data;
     } catch (error) {
-        const { response: { data: { message } } } = error;
+        const { response } = error;
+        const message = response ? response.data.message : 'An error has occured. Talk with an admin';
 
         return {
             ok: false,

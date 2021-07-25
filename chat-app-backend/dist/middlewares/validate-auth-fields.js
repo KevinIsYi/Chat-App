@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateBodyData = exports.validatePasswordLength = exports.validateAuthFields = void 0;
+exports.validateUserNameLength = exports.validatePasswordLength = exports.validateAuthFields = void 0;
+const removeSpaces_1 = require("../helpers/removeSpaces");
 const validateAuthFields = (req, res, next) => {
-    const { body: { data: { userName, password } } } = req;
+    const { body: { userName, password } } = req;
     if (!userName || !password) {
         return res.status(400).json({
             ok: false,
@@ -13,7 +14,7 @@ const validateAuthFields = (req, res, next) => {
 };
 exports.validateAuthFields = validateAuthFields;
 const validatePasswordLength = (req, res, next) => {
-    const { body: { data: { password } } } = req;
+    const { body: { password } } = req;
     if (password.length < 6) {
         return res.status(400).json({
             ok: false,
@@ -23,15 +24,16 @@ const validatePasswordLength = (req, res, next) => {
     next();
 };
 exports.validatePasswordLength = validatePasswordLength;
-const validateBodyData = (req, res, next) => {
-    const { body: { data } } = req;
-    if (!data) {
+const validateUserNameLength = (req, res, next) => {
+    const { body: { userName } } = req;
+    if (userName.legth > 25) {
         return res.status(400).json({
             ok: false,
-            message: 'Data field is required',
+            message: 'User Name cannot have more than 25 characters'
         });
     }
+    req.body.userName = removeSpaces_1.removeSpaces(userName);
     next();
 };
-exports.validateBodyData = validateBodyData;
+exports.validateUserNameLength = validateUserNameLength;
 //# sourceMappingURL=validate-auth-fields.js.map

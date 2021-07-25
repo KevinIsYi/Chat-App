@@ -1,4 +1,4 @@
-import { ChatInterface } from "../intercaces/interfaces"
+import { ChatInterface } from "../interfaces/interfaces";
 
 export const OutgoingMessage = ({ message }: ChatInterface) => {
     return (

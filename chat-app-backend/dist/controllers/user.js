@@ -16,7 +16,7 @@ exports.changeUserStatus = void 0;
 const User_1 = __importDefault(require("../models/User"));
 const changeUserStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { body: { data: { uid, userStatus } } } = req;
+        const { body: { uid, userStatus } } = req;
         if (!userStatus) {
             return res.status(400).json({
                 ok: false,

@@ -8,6 +8,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const verifyJWT = (req, res, next) => {
     try {
         const token = req.header('x-token');
+        console.log(req);
         if (!token) {
             return res.status(401).json({
                 ok: false,

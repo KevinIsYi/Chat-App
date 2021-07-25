@@ -3,6 +3,7 @@ import { useContext } from "react"
 import { AiOutlineEdit } from 'react-icons/ai';
 import { useForm } from "react-hook-form";
 import { AuthContext } from '../context/AuthContext';
+import { updateStatusFetch } from "../api/user";
 
 interface FormValues {
     newStatus: string;
@@ -10,7 +11,7 @@ interface FormValues {
 
 export const ChatStatus = () => {
 
-    const { authState: { user: { userStatus } }, changeStatus } = useContext(AuthContext);
+    const { authState: { user: { userStatus, uid }, token }, changeStatus } = useContext(AuthContext);
     const [isChangingStatus, setIsChangingStatus] = useState(false);
     const { register, handleSubmit } = useForm<FormValues>({
         defaultValues: {
@@ -18,10 +19,14 @@ export const ChatStatus = () => {
         }
     });
 
-    const updateStatus = (e: FormValues) => {
+    const updateStatus = async (e: FormValues) => {
         const { newStatus } = e;
 
-        changeStatus(newStatus);
+        const { ok } = await updateStatusFetch(uid, token, newStatus);
+
+        if (ok) {
+            changeStatus(newStatus);
+        }
         setIsChangingStatus(false);
     }
 
