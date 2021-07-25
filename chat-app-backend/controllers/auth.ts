@@ -5,6 +5,7 @@ import { generateJWT } from '../helpers/jwt';
 
 export const createUser = async (req: Request, res: Response) => {
     try {
+        
         const { body: { data: { userName, password } } } = req;
 
         const userExist = await User.findOne({ userName });

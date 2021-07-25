@@ -4,12 +4,9 @@ export const validateAuthFields = (req: Request, res: Response, next: NextFuncti
     const { body: { data: { userName, password } } } = req;
 
     if (!userName || !password) {
-        console.log("Entra al if");
-
         return res.status(400).json({
             ok: false,
             message: 'User Name and Password are required',
-            data: {}
         });
     }
     next();
@@ -22,7 +19,19 @@ export const validatePasswordLength = (req: Request, res: Response, next: NextFu
         return res.status(400).json({
             ok: false,
             message: 'Password must have at least 6 characters',
-            data: {}
+        });
+    }
+
+    next();
+}
+
+export const validateBodyData = (req: Request, res: Response, next: NextFunction) => {
+    const { body: { data } } = req;
+
+    if (!data) {
+        return res.status(400).json({
+            ok: false,
+            message: 'Data field is required',
         });
     }
 

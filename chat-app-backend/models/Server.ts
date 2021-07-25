@@ -14,7 +14,7 @@ class Server {
         this.port = process.env.PORT || '8000';
         this.server = http.createServer(this.app);
 
-        // dbConnection();
+        dbConnection();
     }
 
     private middlewares() {
@@ -23,6 +23,7 @@ class Server {
         this.app.use(express.json());
 
         this.app.use('/auth', require('../router/auth'));
+        this.app.use('/user', require('../router/user'));
     }
 
     public listen() {

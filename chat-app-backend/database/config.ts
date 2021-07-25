@@ -5,11 +5,11 @@ const dbConnection = async () => {
         await connect(process.env.DB_CNN!, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useCreateIndex: true
+            useCreateIndex: true,
         });
 
         console.log("DB Online");
-        
+
 
     } catch (error) {
         console.log(error);

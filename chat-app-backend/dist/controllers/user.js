@@ -23,7 +23,7 @@ const changeUserStatus = (req, res) => __awaiter(void 0, void 0, void 0, functio
                 message: 'New User Status was not provided as needed'
             });
         }
-        const userDB = yield User_1.default.findByIdAndUpdate(uid, { userStatus });
+        const userDB = yield User_1.default.findByIdAndUpdate(uid, { userStatus }, { useFindAndModify: false });
         if (userDB) {
             return res.json({
                 ok: true,

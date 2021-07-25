@@ -13,7 +13,7 @@ export const changeUserStatus = async (req: Request, res: Response) => {
             });
         }
 
-        const userDB = await User.findByIdAndUpdate(uid, { userStatus });
+        const userDB = await User.findByIdAndUpdate(uid, { userStatus }, { useFindAndModify: false });
 
         if (userDB) {
             return res.json({
@@ -21,7 +21,7 @@ export const changeUserStatus = async (req: Request, res: Response) => {
                 message: 'User status has beed updated'
             });
         }
-        
+
         return res.status(404).json({
             ok: false,
             message: 'User ID not found'

@@ -15,7 +15,7 @@ const dbConnection = () => __awaiter(void 0, void 0, void 0, function* () {
         yield mongoose_1.connect(process.env.DB_CNN, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useCreateIndex: true
+            useCreateIndex: true,
         });
         console.log("DB Online");
     }
