@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getAllUsers } from "../api/user";
 import { User } from "../interfaces/interfaces";
 
-export const useGetUsers = (token: string) => {
+export const useUsers = (token: string) => {
     const [users, setUsers] = useState<User[]>([]);
 
     const fetchUsers = async () => {
@@ -13,11 +13,16 @@ export const useGetUsers = (token: string) => {
         }
     }
 
+    const updateUsersState = useCallback(() => {
+        setUsers([]);
+    }, []);
+
     useEffect(() => {
         fetchUsers();
     });
 
     return {
-        users
+        users,
+        updateUsersState
     }
 }

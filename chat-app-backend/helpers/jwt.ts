@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 export const generateJWT = (uid: string) => {
     return new Promise((resolve, reject) => {
@@ -17,3 +17,23 @@ export const generateJWT = (uid: string) => {
         );
     });
 };
+
+interface JWTInterface extends JwtPayload {
+    uid: string;
+}
+
+export const getUIDFromToken = (token: string): { ok: boolean, uid: string | null } => {
+    try {
+        const { uid } = jwt.verify(token, process.env.JWT_KEY!) as JWTInterface;
+
+        return {
+            ok: true,
+            uid
+        }
+    } catch (error) {
+        return {
+            ok: false,
+            uid: null
+        }
+    }
+}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useContext } from "react"
 import { AiOutlineEdit } from 'react-icons/ai';
 import { useForm } from "react-hook-form";
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/auth/AuthContext';
 import { updateStatusFetch } from "../api/user";
 
 interface FormValues {

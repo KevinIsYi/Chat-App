@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Sockets = void 0;
 const socket_io_1 = require("socket.io");
+const jwt_1 = require("../helpers/jwt");
 class Sockets {
     constructor(server) {
         this.io = new socket_io_1.Server(server);
@@ -19,11 +20,13 @@ class Sockets {
     socketEvents() {
         console.log('Sockets are live');
         this.io.on('connection', (socket) => __awaiter(this, void 0, void 0, function* () {
-            // const { ok, uid } = getUIDFromToken(socket.handshake.query['x-token']);
-            // if (!ok) {
-            //     return socket.disconnect();
-            // }
+            const { ok, uid } = jwt_1.getUIDFromToken(socket.handshake.query['x-token']);
+            console.log("Se conecto el: ", uid);
+            if (!ok) {
+                return socket.disconnect();
+            }
             socket.on('one-to-one-message', (payload) => __awaiter(this, void 0, void 0, function* () {
+                console.log(payload);
                 // const newMessage = await saveMessage(payload);
                 // if (newMessage) {
                 //     this.io.to(payload.to).emit('one-to-one-message', newMessage);

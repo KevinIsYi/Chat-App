@@ -1,6 +1,6 @@
 import { createContext, useReducer } from "react";
+import { User } from "../../interfaces/interfaces";
 import { authReducer } from "./authReducer";
-import { User } from '../interfaces/interfaces';
 
 export interface AuthInterface {
     isLoggedIn: boolean;
