@@ -1,5 +1,7 @@
-import React from 'react';
+import { useContext } from 'react';
 import { SidebarChat } from './SidebarChat';
+import { AuthContext } from '../context/AuthContext';
+import { useGetUsers } from '../hooks/useGetUsers';
 
 const people = [
     "Kevin",
@@ -15,17 +17,23 @@ const people = [
 ]
 
 export const SidebarChatContainer = () => {
+
+    const { authState: { token } } = useContext(AuthContext);
+    const { users } = useGetUsers(token);
+
     return (
         <div className="overflow-auto">
-            <SidebarChat
+            {/* <SidebarChat
                 name="Kevin Rodríguez"
                 pinned={true}
-            />
+            /> */}
             {
-                people.map((people, index) => (
+                users.map(({ uid, online, userName }) => (
                     <SidebarChat
-                        key={index}
-                        name={people}
+                        key={uid}
+                        online={online}
+                        userName={userName}
+
                     />
                 ))
             }

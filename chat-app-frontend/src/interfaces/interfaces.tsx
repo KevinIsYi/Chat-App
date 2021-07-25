@@ -9,6 +9,12 @@ export interface Data {
     token: string;
 }
 
+export interface Users {
+    ok:      boolean;
+    message: string;
+    users:   User[];
+}
+
 export interface User {
     userStatus: string;
     online:     boolean;
