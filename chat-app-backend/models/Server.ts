@@ -14,7 +14,7 @@ class Server {
         this.port = process.env.PORT || '8000';
         this.server = http.createServer(this.app);
 
-        dbConnection();
+        // dbConnection();
     }
 
     private middlewares() {

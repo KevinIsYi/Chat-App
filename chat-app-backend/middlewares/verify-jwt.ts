@@ -1,8 +1,7 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { IGetUserAuthInfoRequest, JWTInterface } from '../interfaces/interfaces';
 
-const verifyJWT = (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
+export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
     try {
         const token = req.header('x-token');
 
@@ -13,8 +12,7 @@ const verifyJWT = (req: IGetUserAuthInfoRequest, res: Response, next: NextFuncti
             });
         }
 
-        const { uid } = jwt.verify(token, process.env.JWT_KEY!) as JWTInterface;
-        req.uid = uid;
+        jwt.verify(token, process.env.JWT_KEY!);
 
         next();
 
@@ -25,7 +23,3 @@ const verifyJWT = (req: IGetUserAuthInfoRequest, res: Response, next: NextFuncti
         });
     }
 };
-
-module.exports = {
-    verifyJWT
-}

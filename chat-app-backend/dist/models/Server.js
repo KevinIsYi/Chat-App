@@ -7,13 +7,12 @@ const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
 const cors_1 = __importDefault(require("cors"));
 const path_1 = __importDefault(require("path"));
-const config_1 = __importDefault(require("../database/config"));
 class Server {
     constructor() {
         this.app = express_1.default();
         this.port = process.env.PORT || '8000';
         this.server = http_1.default.createServer(this.app);
-        config_1.default();
+        // dbConnection();
     }
     middlewares() {
         this.app.use(express_1.default.static(path_1.default.resolve(__dirname, '..', '..', 'public')));
