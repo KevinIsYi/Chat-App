@@ -1,16 +1,12 @@
-import { useContext } from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { AuthContext } from '../context/auth/AuthContext';
 
-export const useSocket = (serverPath: string) => {
+export const useSocket = (serverPath: string, token: string) => {
 
     const [socket, setSocket] = useState<Socket>();
     const [online, setOnline] = useState(false);
-    const { authState: { token } } = useContext(AuthContext);
 
     const connectSocket = useCallback(() => {
-
         // const token = localStorage.getItem('token');
         const socketTemp = io(serverPath, {
             transports: ['websocket'],
@@ -22,7 +18,9 @@ export const useSocket = (serverPath: string) => {
         });
 
         setSocket(socketTemp);
-    }, [serverPath]);
+        console.log("Hola");
+        
+    }, [serverPath, token]);
 
     const disconnectSocket = useCallback(() => {
         socket?.disconnect();

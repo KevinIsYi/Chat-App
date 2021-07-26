@@ -1,8 +1,10 @@
 import React from 'react';
 import { createContext } from 'react';
+import { useContext } from 'react';
 import { useEffect } from 'react';
 import { Socket } from 'socket.io-client';
 import { useSocket } from '../hooks/useSocket';
+import { AuthContext } from './auth/AuthContext';
 
 interface SocketContextProps {
     socket: Socket | undefined;
@@ -11,30 +13,28 @@ interface SocketContextProps {
 
 export const SocketContext = createContext({} as SocketContextProps);
 
-export const SocketProvider = ({ children }: { children: React.FC }): JSX.Element => {
+export const SocketProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
 
-    const { socket, online, connectSocket, disconnectSocket } = useSocket('http//localhost:8000');
+    const { authState: { token } } = useContext(AuthContext);
+    const { socket, online, connectSocket } = useSocket('http://localhost:8000', token);
 
     useEffect(() => {
         socket?.on('one-to-one-message', (message) => {
             console.log(message);
-            
+
         });
     }, [socket]);
 
     useEffect(() => {
         socket?.on('user-connected', (userId) => {
             console.log(userId);
-            
+
         });
     }, [socket]);
 
     useEffect(() => {
         connectSocket();
-        return () => {
-            disconnectSocket();
-        }
-    }, [])
+    }, [connectSocket]);    
 
     return (
         <SocketContext.Provider
