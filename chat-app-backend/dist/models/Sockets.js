@@ -18,13 +18,12 @@ class Sockets {
         this.socketEvents();
     }
     socketEvents() {
-        console.log('Sockets are live');
         this.io.on('connection', (socket) => __awaiter(this, void 0, void 0, function* () {
             const { ok, uid } = jwt_1.getUIDFromToken(socket.handshake.query['x-token']);
-            console.log("Se conecto el: ", uid);
             if (!ok) {
                 return socket.disconnect();
             }
+            socket.join(uid);
             socket.on('one-to-one-message', (payload) => __awaiter(this, void 0, void 0, function* () {
                 console.log(payload);
                 // const newMessage = await saveMessage(payload);

@@ -1,5 +1,6 @@
+import { useContext } from 'react';
 import { AiFillPushpin } from 'react-icons/ai';
-import { scrollToBottom } from '../helpers/scrollToBottom';
+import { MessagesContext } from '../context/messages/MessagesContext';
 
 interface Props {
     uid: string;
@@ -10,13 +11,15 @@ interface Props {
 
 export const SidebarChat = ({ uid, online, userName, pinned }: Props) => {
 
+    const { messagesState: { activeChatUid }, changeActiveChatUID } = useContext(MessagesContext);
+
     const selectChat = () => {
-        scrollToBottom();
+        changeActiveChatUID(uid);
     }
 
     return (
         <div
-            className="transition duration-500 hover:bg-gray-200 cursor-pointer px-5 py-3 shadow capitalize flex justify-between w-screen md:w-full"
+            className={`${activeChatUid === uid ? 'bg-gray-200 hover:bg-gray-400' : 'hover:bg-gray-200'} transition duration-500 cursor-pointer px-5 py-3 shadow capitalize flex justify-between w-screen md:w-full`}
             onClick={selectChat}
         >
             {

@@ -1,5 +1,6 @@
 import { ChatSide } from "../components/ChatSide"
 import { Sidebar } from "../components/Sidebar"
+import { MessagesProvider } from "../context/messages/MessagesContext"
 import { SocketProvider } from "../context/SocketContext"
 import { UsersProvider } from "../context/users/UsersContext"
 
@@ -9,8 +10,10 @@ export const ChatPage = () => {
             <div className="flex space-between h-screen bg-white shadow-lg">
                 <UsersProvider>
                     <SocketProvider>
-                        <Sidebar />
-                        <ChatSide />
+                        <MessagesProvider>
+                            <Sidebar />
+                            <ChatSide />
+                        </MessagesProvider>
                     </SocketProvider>
                 </UsersProvider>
             </div>

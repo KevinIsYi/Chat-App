@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { IoSendSharp } from "react-icons/io5";
+import { SocketContext } from '../context/SocketContext';
 
 interface FormValues {
     message: string;
@@ -8,12 +10,14 @@ interface FormValues {
 export const ChatInput = () => {
 
     const { register, handleSubmit, setValue } = useForm<FormValues>();
+    const { socket } = useContext(SocketContext);
 
     const sendMessage = (e: FormValues) => {
         const { message } = e;
-        console.log(message);
 
         setValue('message', '');
+
+        socket?.emit('one-to-one-message', (message));
     }
 
     return (
@@ -23,7 +27,7 @@ export const ChatInput = () => {
                 onSubmit={handleSubmit(sendMessage)}
             >
                 <input
-                autoComplete="off"
+                    autoComplete="off"
                     className="text-white bg-gray-900 w-full outline-none p-3 rounded-full"
                     placeholder="Your message"
                     type="text"

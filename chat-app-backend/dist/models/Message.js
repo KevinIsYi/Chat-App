@@ -35,5 +35,5 @@ MessageSchema.method('toJSON', function () {
     const _a = this.toObject(), { __v } = _a, object = __rest(_a, ["__v"]);
     return object;
 });
-module.exports = mongoose_1.model('Message', MessageSchema);
+exports.default = mongoose_1.model('Message', MessageSchema);
 //# sourceMappingURL=Message.js.map

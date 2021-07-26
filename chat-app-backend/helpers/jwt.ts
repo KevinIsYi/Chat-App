@@ -1,4 +1,5 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import { isValidObjectId } from 'mongoose';
 
 export const generateJWT = (uid: string) => {
     return new Promise((resolve, reject) => {
@@ -26,10 +27,19 @@ export const getUIDFromToken = (token: string): { ok: boolean, uid: string | nul
     try {
         const { uid } = jwt.verify(token, process.env.JWT_KEY!) as JWTInterface;
 
-        return {
-            ok: true,
-            uid
+        if (isValidObjectId(uid)) {
+            return {
+                ok: true,
+                uid
+            }
         }
+        else {
+            return {
+                ok: false,
+                uid: null
+            }
+        }
+
     } catch (error) {
         return {
             ok: false,
