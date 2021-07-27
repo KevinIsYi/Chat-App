@@ -1,10 +1,16 @@
 import { Message } from '../interfaces/interfaces';
 
-export const OutgoingMessage = ({ message }: Message) => {
+export const OutgoingMessage = ({ message, createdAt }: Message) => {
+
+    const date = new Date(createdAt);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const creationHour = `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`;
+    
     return (
         <div className="rounded self-end w-7/12 bg-gray-100 p-1">
             {message}
-            <p className="text-right text-xs">15:34</p>
+            <p className="text-right text-xs">{creationHour}</p>
         </div>
     )
 }

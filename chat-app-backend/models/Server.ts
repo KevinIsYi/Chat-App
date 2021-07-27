@@ -26,11 +26,7 @@ class Server {
 
         this.app.use('/auth', require('../router/auth'));
         this.app.use('/user', require('../router/user'));
-        this.app.use('/messages', require('../router/messages'));
-    }
-
-    private configureSockets() {
-
+        this.app.use('/messages', require('../router/messages'));        
     }
 
     public listen() {

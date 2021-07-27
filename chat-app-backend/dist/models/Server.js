@@ -25,8 +25,6 @@ class Server {
         this.app.use('/user', require('../router/user'));
         this.app.use('/messages', require('../router/messages'));
     }
-    configureSockets() {
-    }
     listen() {
         this.middlewares();
         this.server.listen(this.port, () => {
