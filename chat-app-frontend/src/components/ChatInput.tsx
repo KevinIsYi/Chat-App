@@ -2,6 +2,8 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { IoSendSharp } from "react-icons/io5";
 import { SocketContext } from '../context/SocketContext';
+import { AuthContext } from '../context/auth/AuthContext';
+import { MessagesContext } from '../context/messages/MessagesContext';
 
 interface FormValues {
     message: string;
@@ -11,13 +13,19 @@ export const ChatInput = () => {
 
     const { register, handleSubmit, setValue } = useForm<FormValues>();
     const { socket } = useContext(SocketContext);
+    const { authState: { user: { uid } } } = useContext(AuthContext);
+    const { messagesState: { activeChatUid } } = useContext(MessagesContext);
 
     const sendMessage = (e: FormValues) => {
         const { message } = e;
+        
+        socket?.emit('one-to-one-message', {
+            from: uid,
+            to: activeChatUid,
+            message
+        });
 
         setValue('message', '');
-
-        socket?.emit('one-to-one-message', (message));
     }
 
     return (

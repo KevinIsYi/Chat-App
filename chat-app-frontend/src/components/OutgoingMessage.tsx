@@ -1,6 +1,6 @@
-import { ChatInterface } from "../interfaces/interfaces";
+import { Message } from '../interfaces/interfaces';
 
-export const OutgoingMessage = ({ message }: ChatInterface) => {
+export const OutgoingMessage = ({ message }: Message) => {
     return (
         <div className="rounded self-end w-7/12 bg-gray-100 p-1">
             {message}

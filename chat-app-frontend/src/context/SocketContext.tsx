@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { Socket } from 'socket.io-client';
 import { useSocket } from '../hooks/useSocket';
 import { AuthContext } from './auth/AuthContext';
+import { MessagesContext } from './messages/MessagesContext';
 
 interface SocketContextProps {
     socket: Socket | undefined;
@@ -17,24 +18,24 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }): JSX
 
     const { authState: { token } } = useContext(AuthContext);
     const { socket, online, connectSocket } = useSocket('http://localhost:8000', token);
+    const { loadNewMessage } = useContext(MessagesContext);
 
     useEffect(() => {
         socket?.on('one-to-one-message', (message) => {
-            console.log(message);
-
+            loadNewMessage(message);           
         });
-    }, [socket]);
+    }, [socket, loadNewMessage]);
 
     useEffect(() => {
         socket?.on('user-connected', (userId) => {
-            console.log(userId);
+            
 
         });
     }, [socket]);
-
+        
     useEffect(() => {
         connectSocket();
-    }, [connectSocket]);    
+    }, [connectSocket]);
 
     return (
         <SocketContext.Provider

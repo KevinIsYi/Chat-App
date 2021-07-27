@@ -9,12 +9,12 @@ export const ChatPage = () => {
         <div className="h-screen mx-auto bg-gray-800 lg:px-20">
             <div className="flex space-between h-screen bg-white shadow-lg">
                 <UsersProvider>
-                    <SocketProvider>
-                        <MessagesProvider>
+                    <MessagesProvider>
+                        <SocketProvider>
                             <Sidebar />
                             <ChatSide />
-                        </MessagesProvider>
-                    </SocketProvider>
+                        </SocketProvider>
+                    </MessagesProvider>
                 </UsersProvider>
             </div>
         </div>

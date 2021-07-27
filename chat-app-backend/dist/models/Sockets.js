@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Sockets = void 0;
 const socket_io_1 = require("socket.io");
 const jwt_1 = require("../helpers/jwt");
+const messages_1 = require("../controllers/messages");
 class Sockets {
     constructor(server) {
         this.io = new socket_io_1.Server(server);
@@ -25,12 +26,11 @@ class Sockets {
             }
             socket.join(uid);
             socket.on('one-to-one-message', (payload) => __awaiter(this, void 0, void 0, function* () {
-                console.log(payload);
-                // const newMessage = await saveMessage(payload);
-                // if (newMessage) {
-                //     this.io.to(payload.to).emit('one-to-one-message', newMessage);
-                //     this.io.to(payload.from).emit('one-to-one-message', newMessage);
-                // }
+                const { ok, message } = yield messages_1.saveMessage(payload);
+                if (ok) {
+                    this.io.to(payload.to).emit('one-to-one-message', message);
+                    this.io.to(payload.from).emit('one-to-one-message', message);
+                }
             }));
             socket.on('disconnect', () => __awaiter(this, void 0, void 0, function* () {
                 console.log("Se ha desconectado");

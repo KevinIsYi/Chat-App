@@ -1,6 +1,6 @@
-import { ChatInterface } from "../interfaces/interfaces"
+import { Message } from "../interfaces/interfaces";
 
-export const IncomingMessage = ({ message }: ChatInterface) => {    
+export const IncomingMessage = ({ message }: Message) => {    
     return (
         <div className="rounded self-start w-7/12 bg-gray-100 p-1">
             {message}

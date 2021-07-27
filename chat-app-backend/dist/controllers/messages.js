@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMessages = void 0;
+exports.saveMessage = exports.getMessages = void 0;
 const Message_1 = __importDefault(require("../models/Message"));
 const getMessages = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -44,4 +44,21 @@ const getMessages = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getMessages = getMessages;
+const saveMessage = (message) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const newMessage = new Message_1.default(message);
+        yield newMessage.save();
+        return {
+            ok: true,
+            message: newMessage
+        };
+    }
+    catch (error) {
+        console.log(error);
+        return {
+            ok: false,
+        };
+    }
+});
+exports.saveMessage = saveMessage;
 //# sourceMappingURL=messages.js.map

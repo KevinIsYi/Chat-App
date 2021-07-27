@@ -2,12 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 
 export const useSocket = (serverPath: string, token: string) => {
-
     const [socket, setSocket] = useState<Socket>();
     const [online, setOnline] = useState(false);
 
     const connectSocket = useCallback(() => {
-        // const token = localStorage.getItem('token');
         const socketTemp = io(serverPath, {
             transports: ['websocket'],
             autoConnect: true,
@@ -18,7 +16,6 @@ export const useSocket = (serverPath: string, token: string) => {
         });
 
         setSocket(socketTemp);
-        console.log("Hola");
         
     }, [serverPath, token]);
 

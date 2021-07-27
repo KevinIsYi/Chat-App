@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { AiFillPushpin } from 'react-icons/ai';
 import { MessagesContext } from '../context/messages/MessagesContext';
 
@@ -9,7 +9,7 @@ interface Props {
     userName: string;
 }
 
-export const SidebarChat = ({ uid, online, userName, pinned }: Props) => {
+export const SidebarChat = React.memo(({ uid, online, userName, pinned }: Props) => {
 
     const { messagesState: { activeChatUid }, changeActiveChatUID } = useContext(MessagesContext);
 
@@ -44,4 +44,4 @@ export const SidebarChat = ({ uid, online, userName, pinned }: Props) => {
             </div>
         </div>
     )
-}
+})

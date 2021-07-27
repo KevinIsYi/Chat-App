@@ -25,3 +25,18 @@ export interface User {
 export interface ChatInterface {
     message: string;
 }
+
+
+export interface Messages {
+    ok:       boolean;
+    messages: Message[];
+}
+
+export interface Message {
+    _id:       string;
+    from:      string;
+    to:        string;
+    message:   string;
+    createdAt: string;
+    updatedAt: string;
+}
