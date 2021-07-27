@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { createContext, useReducer } from "react";
+import { loginWithToken } from "../../api/auth";
 import { User } from "../../interfaces/interfaces";
 import { authReducer } from "./authReducer";
 
@@ -38,7 +40,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }): JSX.Eleme
             payload: newStatus
         });
     };
-    
+
     const signIn = (params: User, token: string) => {
         dispatch({
             type: 'signIn',
@@ -47,6 +49,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }): JSX.Eleme
                 token
             }
         });
+
+        localStorage.setItem('token', token);
     }
 
     const logOut = () => {
@@ -54,6 +58,33 @@ export const AuthProvider = ({ children }: { children: JSX.Element }): JSX.Eleme
             type: 'logOut'
         });
     };
+
+    useEffect(() => {
+        const tokenLogin = async () => {
+            const token = localStorage.getItem('token');
+            console.log("Mi token");
+            
+            if (token) {
+                const { user } = await loginWithToken(token);
+
+                if (user) {
+                    dispatch({
+                        type: 'signIn',
+                        payload: {
+                            ...user,
+                            token
+                        },
+                    });
+                }
+            }
+        }
+
+        console.log("Me llame wey");
+        
+
+        tokenLogin();
+
+    }, []);
 
     return (
         <AuthContext.Provider

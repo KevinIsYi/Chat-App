@@ -12,5 +12,6 @@ router.post('/change-status', [
 router.get('/get-users', [
     verify_jwt_1.verifyJWT
 ], user_1.getUsers);
+router.get('/:token', user_1.loginWithToken);
 module.exports = router;
 //# sourceMappingURL=user.js.map

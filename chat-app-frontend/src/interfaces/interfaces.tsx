@@ -38,5 +38,6 @@ export interface Message {
     to:        string;
     message:   string;
     createdAt: string;
-    updatedAt: string;
+    
 }
+

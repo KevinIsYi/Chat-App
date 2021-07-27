@@ -1,5 +1,5 @@
-import { Auth } from "../interfaces/interfaces";
-import chatDB from "./config";
+import { Auth, User } from "../interfaces/interfaces";
+import chatDB from './config';
 
 export const authFetch = async (
     userName: string,
@@ -33,5 +33,24 @@ export const authFetch = async (
                 }
             }
         }
+    }
+}
+
+interface AuthTokenInterface {
+    ok: boolean;
+    user: User;
+}
+
+export const loginWithToken = async (token: string): Promise<{ user: User | null }> => {
+    try {
+        const { data: { ok, user } } = await chatDB.get<AuthTokenInterface>(`http://localhost:8000/user/${token}`);
+
+        if (ok) {
+            return { user };
+        }
+        return { user: null }
+
+    } catch (error) {
+        return { user: null }
     }
 }

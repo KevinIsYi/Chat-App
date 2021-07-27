@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { changeUserStatus, getUsers } from '../controllers/user';
+import { changeUserStatus, getUsers, loginWithToken } from '../controllers/user';
 import { validateUID } from '../middlewares/validate-uid';
 import { verifyJWT } from '../middlewares/verify-jwt';
 
@@ -20,6 +20,11 @@ router.get(
         verifyJWT
     ],
     getUsers
+);
+
+router.get(
+    '/:token',
+    loginWithToken
 );
 
 module.exports = router;
