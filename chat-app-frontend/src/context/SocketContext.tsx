@@ -20,8 +20,13 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }): JSX
     const { socket, online, connectSocket } = useSocket('http://localhost:8000', token);
     const { loadNewMessage } = useContext(MessagesContext);
 
+    console.log("Me cargo?");
+    
+
     useEffect(() => {
         socket?.on('one-to-one-message', (message) => {
+            console.log("Recibe");
+            
             loadNewMessage(message);           
         });
     }, [socket, loadNewMessage]);

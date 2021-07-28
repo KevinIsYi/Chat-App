@@ -11,7 +11,7 @@ interface Props {
 
 export const SidebarChat = React.memo(({ uid, online, userName, pinned }: Props) => {
 
-    const { messagesState: { activeChatUid }, changeActiveChatUID } = useContext(MessagesContext);
+    const { messagesState: { contact: { uid: activeChatUid } }, changeActiveChatUID } = useContext(MessagesContext);
 
     const selectChat = () => {
         changeActiveChatUID(uid);

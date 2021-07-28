@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { changeUserStatus, getUsers, loginWithToken } from '../controllers/user';
-import { validateUID } from '../middlewares/validate-uid';
-import { verifyJWT } from '../middlewares/verify-jwt';
+import { changeUserStatus, getUserById, getUsers, loginWithToken } from '../controllers/user';
+import { validateUID, validateUIDFromUrl } from '../middlewares/validate-uid';
+import { verifyJWT, verifyJWTFromUrl } from '../middlewares/verify-jwt';
 
 const router = Router();
 
@@ -24,7 +24,19 @@ router.get(
 
 router.get(
     '/:token',
+    [
+        verifyJWTFromUrl
+    ],
     loginWithToken
+);
+
+router.get(
+    '/:uid/:token',
+    [
+        validateUIDFromUrl,
+        verifyJWTFromUrl
+    ],
+    getUserById
 );
 
 module.exports = router;

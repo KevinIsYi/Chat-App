@@ -14,3 +14,18 @@ export const validateUID = (req: Request, res: Response, next: NextFunction) => 
 
     next();
 }
+
+
+export const validateUIDFromUrl = (req: Request, res: Response, next: NextFunction) => {
+
+    const { params: { uid } } = req;
+    
+    if (!uid || !isValidObjectId(uid)) {
+        return res.status(400).json({
+            ok: false,
+            message: 'A valid UID is required'
+        });
+    }
+    
+    next();
+}

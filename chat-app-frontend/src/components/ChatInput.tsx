@@ -14,11 +14,12 @@ export const ChatInput = () => {
     const { register, handleSubmit, setValue } = useForm<FormValues>();
     const { socket } = useContext(SocketContext);
     const { authState: { user: { uid } } } = useContext(AuthContext);
-    const { messagesState: { activeChatUid } } = useContext(MessagesContext);
+    const { messagesState: { contact: { uid: activeChatUid } } } = useContext(MessagesContext);
 
     const sendMessage = (e: FormValues) => {
         const { message } = e;
         
+
         socket?.emit('one-to-one-message', {
             from: uid,
             to: activeChatUid,

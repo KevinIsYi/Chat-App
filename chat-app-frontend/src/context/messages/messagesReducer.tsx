@@ -1,21 +1,30 @@
-import { Message } from '../../interfaces/interfaces';
+import { Message, User } from '../../interfaces/interfaces';
 import { MessageInterface } from "./MessagesContext"
 
 export type MessageAction =
-    | { type: 'loadMessages', payload: { uid: string, messages: Message[] } }
-    | { type: 'newMessage', payload: Message }
-
+    | {
+        type: 'loadContactInfo',
+        payload: {
+            contact: User,
+            messages: Message[]
+        }
+    }
+    | {
+        type: 'newMessage',
+        payload: Message
+    }
 
 export const messagesReducer = (state: MessageInterface, action: MessageAction): MessageInterface => {
     switch (action.type) {
-        case 'loadMessages': {
-            const { payload: { uid, messages } } = action;
+        case 'loadContactInfo': {
             return {
-                activeChatUid: uid,
-                messages
+                ...state,
+                ...action.payload
             }
         }
         case 'newMessage': {
+            console.log("Llegué con esto: ", action.payload);
+            
             return {
                 ...state,
                 messages: [...state.messages, action.payload]

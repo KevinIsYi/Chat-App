@@ -1,15 +1,16 @@
 import { useContext } from 'react';
 import { createContext, useCallback, useReducer } from 'react';
-import { Message } from '../../interfaces/interfaces';
+import { Message, User } from '../../interfaces/interfaces';
 import { MessageAction, messagesReducer } from './messagesReducer';
 import { AuthContext } from '../auth/AuthContext';
 import { messagesFetch } from '../../api/messages';
 import React from 'react';
 import { scrollToBottom, scrollToBottomAnimated } from '../../helpers/scrollToBottom';
+import { getUserById } from '../../api/user';
 
 export interface MessageInterface {
-    activeChatUid: string | null;
-    messages: Message[]
+    contact: User;
+    messages: Message[];
 }
 
 interface MessagesProps {
@@ -20,9 +21,14 @@ interface MessagesProps {
 }
 
 const initialState: MessageInterface = {
-    activeChatUid: null,
-    messages: []
-}
+    contact: {
+        uid: '',
+        online: false,
+        userName: '',
+        userStatus: ''
+    },
+    messages: [],
+};
 
 export const MessagesContext = createContext({} as MessagesProps);
 
@@ -32,15 +38,26 @@ export const MessagesProvider = ({ children }: { children: React.ReactNode }): J
     const { authState: { token, user: { uid } } } = useContext(AuthContext);
 
     const changeActiveChatUID = useCallback(async (newUID: string) => {
-        const messages = await messagesFetch(uid, newUID, token);
 
-        dispatch({
-            type: 'loadMessages',
-            payload: {
-                uid: newUID,
-                messages
-            }
-        });
+        const userRequest = getUserById(newUID, token);
+        const message = messagesFetch(uid, newUID, token);
+
+        const [userInfo, messages] = await Promise.all([
+            userRequest,
+            message
+        ]);
+
+        const { user } = userInfo;
+
+        if (user) {
+            dispatch({
+                type: 'loadContactInfo',
+                payload: {
+                    contact: user,
+                    messages
+                }
+            });
+        }
 
         scrollToBottom();
 

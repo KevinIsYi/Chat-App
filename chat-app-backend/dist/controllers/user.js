@@ -62,25 +62,27 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getUsers = getUsers;
-const getUserById = (uid) => __awaiter(void 0, void 0, void 0, function* () {
+const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        return yield User_1.default.findById(uid);
+        const { params: { uid } } = req;
+        const user = yield User_1.default.findById(uid);
+        return res.json({
+            ok: true,
+            user
+        });
     }
     catch (error) {
         console.log(error);
-        return false;
+        return res.status(500).json({
+            ok: false,
+            message: 'An error has occurred. Talk with an admin'
+        });
     }
 });
 exports.getUserById = getUserById;
 const loginWithToken = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { params: { token } } = req;
-        if (!token) {
-            return res.status(400).json({
-                ok: false,
-                message: 'Token is required'
-            });
-        }
         const { ok, uid } = jwt_1.getUIDFromToken(token);
         if (!ok || !mongoose_1.isValidObjectId(uid)) {
             return res.status(400).json({
@@ -88,7 +90,7 @@ const loginWithToken = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 message: 'Token is not valid'
             });
         }
-        const user = yield exports.getUserById(uid);
+        const user = yield User_1.default.findById(uid);
         if (user) {
             return res.json({
                 ok: true,

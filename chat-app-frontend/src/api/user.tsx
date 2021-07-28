@@ -1,4 +1,4 @@
-import { Users } from '../interfaces/interfaces';
+import { User, Users } from '../interfaces/interfaces';
 import chatDB from './config';
 
 interface StatusResponseInterface {
@@ -57,5 +57,24 @@ export const getAllUsers = async (token: string): Promise<Users> => {
             message,
             users: []
         }
+    }
+}
+
+interface GetUserUIDInterface {
+    ok: boolean,
+    user?: User;
+}
+
+export const getUserById = async (uid: string, token: string): Promise<GetUserUIDInterface> => {
+    
+    try {
+        const { data } = await chatDB.get<GetUserUIDInterface>(`user/${uid}/${token}`);
+        
+        return data;
+
+    } catch (error) {
+        return {
+            ok: false
+        };
     }
 }

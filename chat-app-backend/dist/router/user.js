@@ -12,6 +12,12 @@ router.post('/change-status', [
 router.get('/get-users', [
     verify_jwt_1.verifyJWT
 ], user_1.getUsers);
-router.get('/:token', user_1.loginWithToken);
+router.get('/:token', [
+    verify_jwt_1.verifyJWTFromUrl
+], user_1.loginWithToken);
+router.get('/:uid/:token', [
+    validate_uid_1.validateUIDFromUrl,
+    verify_jwt_1.verifyJWTFromUrl
+], user_1.getUserById);
 module.exports = router;
 //# sourceMappingURL=user.js.map

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { isValidObjectId, ObjectId } from 'mongoose';
+import { isValidObjectId } from 'mongoose';
 import { getUIDFromToken } from '../helpers/jwt';
 import User from '../models/User';
 
@@ -54,26 +54,29 @@ export const getUsers = async (req: Request, res: Response) => {
     }
 }
 
-export const getUserById = async (uid: string) => {
+export const getUserById = async (req: Request, res: Response) => {
     try {
-        return await User.findById(uid);
+        const { params: { uid } } = req;
+        const user = await User.findById(uid);
+
+        return res.json({
+            ok: true,
+            user
+        });
+
     } catch (error) {
         console.log(error);
-        return false;
+        return res.status(500).json({
+            ok: false,
+            message: 'An error has occurred. Talk with an admin'
+        });
     }
 }
+
 
 export const loginWithToken = async (req: Request, res: Response) => {
     try {
         const { params: { token } } = req;
-
-        if (!token) {
-            return res.status(400).json({
-                ok: false,
-                message: 'Token is required'
-            });
-        }
-
         const { ok, uid } = getUIDFromToken(token);
 
         if (!ok || !isValidObjectId(uid)) {
@@ -83,7 +86,7 @@ export const loginWithToken = async (req: Request, res: Response) => {
             });
         }
 
-        const user = await getUserById(uid!);
+        const user = await User.findById(uid);
 
         if (user) {
             return res.json({
