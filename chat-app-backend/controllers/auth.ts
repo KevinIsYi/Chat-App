@@ -3,6 +3,7 @@ import bcryptjs from 'bcryptjs';
 import User from '../models/User';
 import { generateJWT } from '../helpers/jwt';
 import { removeSpaces } from '../helpers/removeSpaces';
+import { createMessages } from './messages';
 
 export const createUser = async (req: Request, res: Response) => {
     try {
@@ -23,6 +24,13 @@ export const createUser = async (req: Request, res: Response) => {
         user.password = bcryptjs.hashSync(password, salt);
 
         const token = await generateJWT(user.uid);
+        
+        console.log("Te llamo");
+        
+        createMessages(user._id);
+
+        console.log("Vuelvo");
+        
 
         await user.save();
 

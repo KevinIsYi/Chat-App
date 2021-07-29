@@ -17,6 +17,7 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const User_1 = __importDefault(require("../models/User"));
 const jwt_1 = require("../helpers/jwt");
 const removeSpaces_1 = require("../helpers/removeSpaces");
+const messages_1 = require("./messages");
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { body: { userName, password } } = req;
@@ -31,6 +32,9 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const salt = bcryptjs_1.default.genSaltSync();
         user.password = bcryptjs_1.default.hashSync(password, salt);
         const token = yield jwt_1.generateJWT(user.uid);
+        console.log("Te llamo");
+        messages_1.createMessages(user._id);
+        console.log("Vuelvo");
         yield user.save();
         return res.status(201).json({
             ok: true,
