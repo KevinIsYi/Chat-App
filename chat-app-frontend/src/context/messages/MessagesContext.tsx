@@ -18,6 +18,7 @@ interface MessagesProps {
     dispatch: React.Dispatch<MessageAction>;
     loadNewMessage: (newMessage: Message) => void;
     changeActiveChatUID: (newUID: string) => void;
+    updateCurrentStatus: (activeUID: string, uid: string, newStatus: string) => void;
 }
 
 const initialState: MessageInterface = {
@@ -65,17 +66,23 @@ export const MessagesProvider = ({ children }: { children: React.ReactNode }): J
     }, [token, uid]);
 
     const loadNewMessage = useCallback((newMessage: Message) => {
-        const { contact: { uid: activeChatUid } } = messagesState;        
-
-        if (newMessage.from === activeChatUid || newMessage.from === uid) {
-            dispatch({
-                type: 'newMessage',
-                payload: newMessage
-            });
-        }
+        dispatch({
+            type: 'newMessage',
+            payload: newMessage
+        });
 
         scrollToBottomAnimated();
+
     }, []);
+
+    const updateCurrentStatus = useCallback((activeUID: string, uid: string, newStatus: string) => {
+        if (uid === activeUID) {
+            dispatch({
+                type: 'updateStatus',
+                payload: newStatus
+            });
+        }
+    }, [dispatch]);
 
     return (
         <MessagesContext.Provider
@@ -83,7 +90,8 @@ export const MessagesProvider = ({ children }: { children: React.ReactNode }): J
                 messagesState,
                 dispatch,
                 loadNewMessage,
-                changeActiveChatUID
+                changeActiveChatUID,
+                updateCurrentStatus
             }}
         >
             {children}

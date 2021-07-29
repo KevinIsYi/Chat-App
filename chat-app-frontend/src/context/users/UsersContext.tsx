@@ -5,7 +5,8 @@ import { AuthContext } from "../auth/AuthContext";
 
 interface UserContextProps {
     users: User[];
-    updateUsersState: () => void
+    updateUsersState: () => void;
+    updateUsersConnections: (uid: string, newStatus: boolean) => void;
 }
 
 export const UsersContext = createContext({} as UserContextProps);
@@ -13,13 +14,14 @@ export const UsersContext = createContext({} as UserContextProps);
 export const UsersProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
     
     const { authState: { token } } = useContext(AuthContext);
-    const { users, updateUsersState } = useUsers(token);
+    const { users, updateUsersState, updateUsersConnections } = useUsers(token);
 
     return (
         <UsersContext.Provider
             value={{
                 users,
-                updateUsersState
+                updateUsersState,
+                updateUsersConnections
             }}
         >
             {children}

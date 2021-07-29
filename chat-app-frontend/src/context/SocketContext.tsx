@@ -6,6 +6,7 @@ import { Socket } from 'socket.io-client';
 import { useSocket } from '../hooks/useSocket';
 import { AuthContext } from './auth/AuthContext';
 import { MessagesContext } from './messages/MessagesContext';
+import { UsersContext } from './users/UsersContext';
 
 interface SocketContextProps {
     socket: Socket | undefined;
@@ -18,22 +19,36 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }): JSX
 
     const { authState: { token } } = useContext(AuthContext);
     const { socket, online, connectSocket, disconnectSocket } = useSocket('http://localhost:8000', token);
-    const { loadNewMessage } = useContext(MessagesContext);    
+    const { messagesState: { contact: { uid } }, loadNewMessage, updateCurrentStatus } = useContext(MessagesContext);
+    const { updateUsersConnections } = useContext(UsersContext);
 
     useEffect(() => {
         socket?.on('one-to-one-message', (message) => {
-            console.log("Recibe");
+            console.log("Llama");
             
-            loadNewMessage(message);           
+            loadNewMessage(message);
         });
     }, [socket, loadNewMessage]);
 
+    console.log("SOcket COntext");
+    
+
     useEffect(() => {
-        socket?.on('user-change-online', (payload) => {
-            console.log(payload);
+        socket?.on('user-change-online', (payload: { uid: string, online: boolean }) => {
+            const { uid, online } = payload;
+            updateUsersConnections(uid, online);
         });
-    }, [socket]);
-        
+    }, [socket, updateUsersConnections]);
+
+
+    useEffect(() => {
+        socket?.on('user-changed-status', (payload: { uid: string, newStatus: string }) => {
+            const { uid: updatedBy, newStatus } = payload;
+            
+            updateCurrentStatus(uid, updatedBy, newStatus);
+        });
+    }, [socket, uid, updateCurrentStatus]);
+
     useEffect(() => {
         connectSocket();
     }, [connectSocket]);

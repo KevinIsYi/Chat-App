@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { AiFillPushpin } from 'react-icons/ai';
+import { AuthContext } from '../context/auth/AuthContext';
 import { MessagesContext } from '../context/messages/MessagesContext';
 
 interface Props {
@@ -11,10 +12,15 @@ interface Props {
 
 export const SidebarChat = React.memo(({ uid, online, userName, isPinned }: Props) => {
 
+    const { authState: { user: { uid: userUid } } } = useContext(AuthContext);
     const { messagesState: { contact: { uid: activeChatUid } }, changeActiveChatUID } = useContext(MessagesContext);
 
     const selectChat = () => {
         changeActiveChatUID(uid);
+    }
+
+    if (uid === userUid) {
+        return null;
     }
 
     return (

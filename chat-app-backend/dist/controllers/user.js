@@ -16,32 +16,15 @@ exports.toggleOnlineStatus = exports.loginWithToken = exports.getUserById = expo
 const mongoose_1 = require("mongoose");
 const jwt_1 = require("../helpers/jwt");
 const User_1 = __importDefault(require("../models/User"));
-const changeUserStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const changeUserStatus = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { body: { uid, userStatus } } = req;
-        if (!userStatus) {
-            return res.status(400).json({
-                ok: false,
-                message: 'New User Status was not provided as needed'
-            });
-        }
-        const userDB = yield User_1.default.findByIdAndUpdate(uid, { userStatus }, { useFindAndModify: false });
-        if (userDB) {
-            return res.json({
-                ok: true,
-                message: 'User status has beed updated'
-            });
-        }
-        return res.status(404).json({
-            ok: false,
-            message: 'User ID not found'
+        const { uid, newStatus } = payload;
+        yield User_1.default.findByIdAndUpdate(uid, {
+            userStatus: newStatus
         });
     }
     catch (error) {
-        return res.status(500).json({
-            ok: false,
-            message: 'An error has occurred. Contact an admin'
-        });
+        console.log(error);
     }
 });
 exports.changeUserStatus = changeUserStatus;

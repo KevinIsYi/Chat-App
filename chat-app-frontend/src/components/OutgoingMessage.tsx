@@ -6,7 +6,7 @@ export const OutgoingMessage = ({ message, createdAt }: Message) => {
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const creationHour = `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`;
-    
+
     return (
         <div className="rounded self-end w-7/12 bg-gray-100 p-1">
             {message}

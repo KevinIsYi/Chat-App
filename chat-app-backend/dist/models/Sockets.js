@@ -39,6 +39,10 @@ class Sockets {
                     this.io.to(payload.from).emit('one-to-one-message', message);
                 }
             }));
+            socket.on('change-status', (payload) => __awaiter(this, void 0, void 0, function* () {
+                yield user_1.changeUserStatus(payload);
+                this.io.emit('user-changed-status', payload);
+            }));
             socket.on('disconnect', () => __awaiter(this, void 0, void 0, function* () {
                 user_1.toggleOnlineStatus(uid, false);
                 this.io.emit('user-change-online', {
