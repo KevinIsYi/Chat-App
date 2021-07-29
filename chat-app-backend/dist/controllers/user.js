@@ -21,6 +21,8 @@ const changeUserStatus = (payload) => __awaiter(void 0, void 0, void 0, function
         const { uid, newStatus } = payload;
         yield User_1.default.findByIdAndUpdate(uid, {
             userStatus: newStatus
+        }, {
+            useFindAndModify: false
         });
     }
     catch (error) {
@@ -98,6 +100,8 @@ const toggleOnlineStatus = (uid, newStatus) => __awaiter(void 0, void 0, void 0,
     try {
         yield User_1.default.findByIdAndUpdate(uid, {
             online: newStatus
+        }, {
+            useFindAndModify: false
         });
     }
     catch (error) {

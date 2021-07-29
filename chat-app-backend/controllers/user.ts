@@ -7,13 +7,19 @@ export const changeUserStatus = async (payload: { uid: string, newStatus: string
     try {
         const { uid, newStatus } = payload;
 
-        await User.findByIdAndUpdate(uid, {
-            userStatus: newStatus
-        });
+        await User.findByIdAndUpdate(
+            uid,
+            {
+                userStatus: newStatus
+            },
+            {
+                useFindAndModify: false
+            }
+        );
 
     } catch (error) {
         console.log(error);
-        
+
     }
 }
 
@@ -93,9 +99,15 @@ export const loginWithToken = async (req: Request, res: Response) => {
 export const toggleOnlineStatus = async (uid: string, newStatus: boolean) => {
 
     try {
-        await User.findByIdAndUpdate(uid, {
-            online: newStatus
-        });
+        await User.findByIdAndUpdate(
+            uid,
+            {
+                online: newStatus
+            },
+            {
+                useFindAndModify: false
+            }
+        );
     } catch (error) {
         console.log(error);
     }
