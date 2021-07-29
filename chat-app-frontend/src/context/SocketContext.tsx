@@ -24,14 +24,9 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }): JSX
 
     useEffect(() => {
         socket?.on('one-to-one-message', (message) => {
-            console.log("Llama");
-            
             loadNewMessage(message);
         });
     }, [socket, loadNewMessage]);
-
-    console.log("SOcket COntext");
-    
 
     useEffect(() => {
         socket?.on('user-change-online', (payload: { uid: string, online: boolean }) => {

@@ -95,7 +95,6 @@ const loginWithToken = (req, res) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.loginWithToken = loginWithToken;
 const toggleOnlineStatus = (uid, newStatus) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(`Me piden cambiar el usuario ${uid} a: ${newStatus}`);
     try {
         yield User_1.default.findByIdAndUpdate(uid, {
             online: newStatus

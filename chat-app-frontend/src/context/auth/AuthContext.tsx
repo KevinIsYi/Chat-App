@@ -66,7 +66,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }): JSX.Eleme
     useEffect(() => {
         const tokenLogin = async () => {
             const token = localStorage.getItem('token');
-            console.log("Mi token");
             
             if (token) {
                 const { user } = await loginWithToken(token);
@@ -82,9 +81,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }): JSX.Eleme
                 }
             }
         }
-
-        console.log("Me llame wey");
-        
 
         tokenLogin();
 
