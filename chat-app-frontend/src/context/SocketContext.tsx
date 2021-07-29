@@ -19,7 +19,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }): JSX
 
     const { authState: { token } } = useContext(AuthContext);
     const { socket, online, connectSocket, disconnectSocket } = useSocket('http://localhost:8000', token);
-    const { messagesState: { contact: { uid } }, loadNewMessage, updateCurrentStatus } = useContext(MessagesContext);
+    const { messagesState: { contact: { uid } }, loadNewMessage, updateCurrentStatus, updateOnlineStatus } = useContext(MessagesContext);
     const { updateUsersConnections } = useContext(UsersContext);
 
     useEffect(() => {
@@ -32,8 +32,12 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }): JSX
         socket?.on('user-change-online', (payload: { uid: string, online: boolean }) => {
             const { uid, online } = payload;
             updateUsersConnections(uid, online);
+            updateOnlineStatus(uid, online);
         });
-    }, [socket, updateUsersConnections]);
+    }, [socket, updateUsersConnections, updateOnlineStatus]);
+
+    console.log("HOla");
+    
 
 
     useEffect(() => {

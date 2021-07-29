@@ -20,6 +20,15 @@ export type MessageAction =
         type: 'updateStatus';
         payload: string;
     }
+    |
+    {
+        type: 'userToggleOnline';
+        payload: {
+            uid: string;
+            online: boolean;
+        }
+    }
+
 
 export const messagesReducer = (state: MessageInterface, action: MessageAction): MessageInterface => {
     switch (action.type) {
@@ -50,6 +59,22 @@ export const messagesReducer = (state: MessageInterface, action: MessageAction):
                     userStatus: action.payload
                 }
             }
+        }
+
+        case 'userToggleOnline': {
+            const { payload: { uid, online } } = action;
+
+            if (uid === state.contact.uid) {
+                return {
+                    ...state,
+                    contact: {
+                        ...state.contact,
+                        online
+                    }
+                }
+            }
+
+            return state;
         }
         default:
             return state;

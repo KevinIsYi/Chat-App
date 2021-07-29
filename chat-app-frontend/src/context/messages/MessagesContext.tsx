@@ -19,6 +19,7 @@ interface MessagesProps {
     loadNewMessage: (newMessage: Message) => void;
     changeActiveChatUID: (newUID: string) => void;
     updateCurrentStatus: (activeUID: string, uid: string, newStatus: string) => void;
+    updateOnlineStatus: (uid: string, online: boolean) => void;
 }
 
 const initialState: MessageInterface = {
@@ -84,6 +85,16 @@ export const MessagesProvider = ({ children }: { children: React.ReactNode }): J
         }
     }, [dispatch]);
 
+    const updateOnlineStatus = useCallback((uid: string, online: boolean) => {
+        dispatch({
+            type: 'userToggleOnline',
+            payload: {
+                uid,
+                online
+            }
+        });
+    }, []);
+
     return (
         <MessagesContext.Provider
             value={{
@@ -91,7 +102,8 @@ export const MessagesProvider = ({ children }: { children: React.ReactNode }): J
                 dispatch,
                 loadNewMessage,
                 changeActiveChatUID,
-                updateCurrentStatus
+                updateCurrentStatus,
+                updateOnlineStatus
             }}
         >
             {children}
