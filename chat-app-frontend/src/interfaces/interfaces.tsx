@@ -20,6 +20,7 @@ export interface User {
     online:     boolean;
     userName:   string;
     uid:        string;
+    isPinned:   boolean;
 }
 
 export interface ChatInterface {

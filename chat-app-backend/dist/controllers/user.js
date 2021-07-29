@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginWithToken = exports.getUserById = exports.getUsers = exports.changeUserStatus = void 0;
+exports.toggleOnlineStatus = exports.loginWithToken = exports.getUserById = exports.getUsers = exports.changeUserStatus = void 0;
 const mongoose_1 = require("mongoose");
 const jwt_1 = require("../helpers/jwt");
 const User_1 = __importDefault(require("../models/User"));
@@ -111,4 +111,16 @@ const loginWithToken = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.loginWithToken = loginWithToken;
+const toggleOnlineStatus = (uid, newStatus) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(`Me piden cambiar el usuario ${uid} a: ${newStatus}`);
+    try {
+        yield User_1.default.findByIdAndUpdate(uid, {
+            online: newStatus
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.toggleOnlineStatus = toggleOnlineStatus;
 //# sourceMappingURL=user.js.map

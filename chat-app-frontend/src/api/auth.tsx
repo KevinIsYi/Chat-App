@@ -16,6 +16,7 @@ export const authFetch = async (
         );
 
         return data;
+        
     } catch (error) {
         const { response } = error;
         const message = response ? response.data.message : 'An error has occured. Talk with an admin';
@@ -29,7 +30,8 @@ export const authFetch = async (
                     online: false,
                     uid: '',
                     userName: '',
-                    userStatus: ''
+                    userStatus: '',
+                    isPinned: false
                 }
             }
         }

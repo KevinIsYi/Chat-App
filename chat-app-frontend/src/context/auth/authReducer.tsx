@@ -24,6 +24,7 @@ export const authReducer = (state: AuthInterface, action: AuthAction): AuthInter
                     uid,
                     userName,
                     userStatus,
+                    isPinned: false
                 }
             }
         }

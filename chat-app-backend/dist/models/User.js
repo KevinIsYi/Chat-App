@@ -31,6 +31,10 @@ const UserSchema = new mongoose_1.Schema({
     online: {
         type: Boolean,
         default: false
+    },
+    isPinned: {
+        type: Boolean,
+        default: false
     }
 });
 UserSchema.method('toJSON', function () {

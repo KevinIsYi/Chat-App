@@ -23,8 +23,6 @@ export const messagesReducer = (state: MessageInterface, action: MessageAction):
             }
         }
         case 'newMessage': {
-            console.log("Llegué con esto: ", action.payload);
-            
             return {
                 ...state,
                 messages: [...state.messages, action.payload]

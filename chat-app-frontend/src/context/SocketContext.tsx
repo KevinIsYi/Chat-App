@@ -17,11 +17,8 @@ export const SocketContext = createContext({} as SocketContextProps);
 export const SocketProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
 
     const { authState: { token } } = useContext(AuthContext);
-    const { socket, online, connectSocket } = useSocket('http://localhost:8000', token);
-    const { loadNewMessage } = useContext(MessagesContext);
-
-    console.log("Me cargo?");
-    
+    const { socket, online, connectSocket, disconnectSocket } = useSocket('http://localhost:8000', token);
+    const { loadNewMessage } = useContext(MessagesContext);    
 
     useEffect(() => {
         socket?.on('one-to-one-message', (message) => {
@@ -32,15 +29,18 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }): JSX
     }, [socket, loadNewMessage]);
 
     useEffect(() => {
-        socket?.on('user-connected', (userId) => {
-            
-
+        socket?.on('user-change-online', (payload) => {
+            console.log(payload);
         });
     }, [socket]);
         
     useEffect(() => {
         connectSocket();
     }, [connectSocket]);
+
+    useEffect(() => {
+        return () => disconnectSocket();
+    }, [disconnectSocket]);
 
     return (
         <SocketContext.Provider

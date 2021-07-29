@@ -17,7 +17,8 @@ export const authInitialState: AuthInterface = {
         online: false,
         uid: '',
         userName: '',
-        userStatus: ''
+        userStatus: '',
+        isPinned: false
     }
 };
 
@@ -54,6 +55,9 @@ export const AuthProvider = ({ children }: { children: JSX.Element }): JSX.Eleme
     }
 
     const logOut = () => {
+
+        localStorage.removeItem('token');
+
         dispatch({
             type: 'logOut'
         });

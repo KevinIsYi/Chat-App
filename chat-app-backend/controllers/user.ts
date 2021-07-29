@@ -108,3 +108,16 @@ export const loginWithToken = async (req: Request, res: Response) => {
         });
     }
 }
+
+export const toggleOnlineStatus = async (uid: string, newStatus: boolean) => {
+
+    console.log(`Me piden cambiar el usuario ${uid} a: ${newStatus}`);
+    
+    try {
+        await User.findByIdAndUpdate(uid, {
+            online: newStatus
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}

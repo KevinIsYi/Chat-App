@@ -4,12 +4,12 @@ import { MessagesContext } from '../context/messages/MessagesContext';
 
 interface Props {
     uid: string;
-    pinned?: boolean;
+    isPinned: boolean;
     online: boolean;
     userName: string;
 }
 
-export const SidebarChat = React.memo(({ uid, online, userName, pinned }: Props) => {
+export const SidebarChat = React.memo(({ uid, online, userName, isPinned }: Props) => {
 
     const { messagesState: { contact: { uid: activeChatUid } }, changeActiveChatUID } = useContext(MessagesContext);
 
@@ -23,7 +23,7 @@ export const SidebarChat = React.memo(({ uid, online, userName, pinned }: Props)
             onClick={selectChat}
         >
             {
-                pinned ? (
+                isPinned ? (
                     <div className="flex items-center gap-2">
                         <AiFillPushpin className="text-xl" />
                         <div>

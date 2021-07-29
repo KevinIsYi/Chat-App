@@ -11,7 +11,7 @@ export const SidebarHeader = () => {
             <div className="flex flex-col flex-start items-start">
                 <div className="flex flex-row-reverse mt-5 lg:mt-0 items-center gap-1.5 overflow-auto">
                     <p className="text-xl font-bold capitalize">{userName}</p>
-                    <div className="rounded-full bg-red-500 w-3 h-3" />
+                    <div className="rounded-full bg-green-500 w-3 h-3" />
                 </div>
                 <ChatStatus />
             </div>

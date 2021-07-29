@@ -13,6 +13,8 @@ exports.Sockets = void 0;
 const socket_io_1 = require("socket.io");
 const jwt_1 = require("../helpers/jwt");
 const messages_1 = require("../controllers/messages");
+const mongoose_1 = require("mongoose");
+const user_1 = require("../controllers/user");
 class Sockets {
     constructor(server) {
         this.io = new socket_io_1.Server(server);
@@ -21,10 +23,15 @@ class Sockets {
     socketEvents() {
         this.io.on('connection', (socket) => __awaiter(this, void 0, void 0, function* () {
             const { ok, uid } = jwt_1.getUIDFromToken(socket.handshake.query['x-token']);
-            if (!ok) {
+            if (!ok || !mongoose_1.isValidObjectId(uid)) {
                 return socket.disconnect();
             }
             socket.join(uid);
+            yield user_1.toggleOnlineStatus(uid, true);
+            this.io.emit('user-change-online', {
+                uid,
+                online: true
+            });
             socket.on('one-to-one-message', (payload) => __awaiter(this, void 0, void 0, function* () {
                 const { ok, message } = yield messages_1.saveMessage(payload);
                 if (ok) {
@@ -33,9 +40,11 @@ class Sockets {
                 }
             }));
             socket.on('disconnect', () => __awaiter(this, void 0, void 0, function* () {
-                console.log("Se ha desconectado");
-                // await disconnectUser(uid);
-                // this.io.emit('list-users', await getUsers());
+                user_1.toggleOnlineStatus(uid, false);
+                this.io.emit('user-change-online', {
+                    uid,
+                    online: false
+                });
             }));
         }));
     }

@@ -25,6 +25,10 @@ const UserSchema = new Schema<IUser>({
     online: {
         type: Boolean,
         default: false
+    },
+    isPinned: {
+        type: Boolean,
+        default: false
     }
 });
 

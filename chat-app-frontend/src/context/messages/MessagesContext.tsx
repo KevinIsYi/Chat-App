@@ -25,7 +25,8 @@ const initialState: MessageInterface = {
         uid: '',
         online: false,
         userName: '',
-        userStatus: ''
+        userStatus: '',
+        isPinned: false,
     },
     messages: [],
 };
@@ -64,10 +65,14 @@ export const MessagesProvider = ({ children }: { children: React.ReactNode }): J
     }, [token, uid]);
 
     const loadNewMessage = useCallback((newMessage: Message) => {
-        dispatch({
-            type: 'newMessage',
-            payload: newMessage
-        });
+        const { contact: { uid: activeChatUid } } = messagesState;        
+
+        if (newMessage.from === activeChatUid || newMessage.from === uid) {
+            dispatch({
+                type: 'newMessage',
+                payload: newMessage
+            });
+        }
 
         scrollToBottomAnimated();
     }, []);
